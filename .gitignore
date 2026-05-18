@@ -1,0 +1,25 @@
+# Xcode
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+DerivedData/
+build/
+*.ipa
+
+# Swift Package Manager
+.build/
+*.resolved
+
+# CocoaPods
+Pods/
+
+# macOS
+.DS_Store
+.AppleDouble
+
+# Environment / secrets
+*.env
+secrets.plist
+
+# XcodeGen
+# (project.yml is intentionally committed)

@@ -45,6 +45,15 @@ struct NoteEditorView: View {
                     }
                     .disabled(note.body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
 
+                    ShareLink(
+                        item: noteAsMarkdown,
+                        subject: Text(note.displayTitle),
+                        message: Text(note.tag.rawValue)
+                    ) {
+                        Label("Compartilhar como texto", systemImage: "square.and.arrow.up")
+                    }
+                    .disabled(note.title.isEmpty && note.body.isEmpty)
+
                     Section("Tag") {
                         ForEach(NoteTag.allCases) { tag in
                             Button {
@@ -187,6 +196,17 @@ struct NoteEditorView: View {
         appState.pendingChatContextLabel = note.displayTitle
         appState.selectedTab = .chat
         dismiss()
+    }
+
+    /// Markdown universal pra exportar a nota — title + body, sem ruído.
+    /// Útil pra colar em editores, mandar por email, salvar em Files, etc.
+    private var noteAsMarkdown: String {
+        let title = note.title.trimmingCharacters(in: .whitespacesAndNewlines)
+        let body = note.body
+        if title.isEmpty {
+            return body
+        }
+        return "# \(title)\n\n\(body)"
     }
 }
 

@@ -5,6 +5,7 @@ struct NoteEditorView: View {
     @Bindable var note: Note
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
+    @Environment(AppState.self) private var appState
 
     @FocusState private var bodyFocused: Bool
     @State private var showConsultSheet = false
@@ -37,6 +38,13 @@ struct NoteEditorView: View {
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
+                    Button {
+                        sendToChat()
+                    } label: {
+                        Label("Pedir feedback ao chat", systemImage: "bubble.left.and.bubble.right")
+                    }
+                    .disabled(note.body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+
                     Section("Tag") {
                         ForEach(NoteTag.allCases) { tag in
                             Button {
@@ -170,6 +178,15 @@ struct NoteEditorView: View {
     private func touch() {
         note.updatedAt = Date()
         try? context.save()
+    }
+
+    /// Anexa o corpo da nota como contexto pra próxima mensagem do Chat
+    /// e troca pra aba Chat. O AppState carrega o handoff.
+    private func sendToChat() {
+        appState.pendingChatContext = note.body
+        appState.pendingChatContextLabel = note.displayTitle
+        appState.selectedTab = .chat
+        dismiss()
     }
 }
 

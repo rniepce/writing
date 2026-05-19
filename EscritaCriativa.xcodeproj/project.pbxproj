@@ -32,6 +32,7 @@
 		9891B05B5817706CD8886511 /* LiteraryExampleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7CE6516954B51367BFE1F7F /* LiteraryExampleSheet.swift */; };
 		51B0059F36BBDD403B9F6010 /* literary_examples.json in Resources */ = {isa = PBXBuildFile; fileRef = 6078949DFFF0736A4DEF02C0 /* literary_examples.json */; };
 		A4D6917FACE5DA89BA624030 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 680645DB9079456859A3D4A1 /* Assets.xcassets */; };
+		A60951457A523A7059FA7ACC /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A17BE1EDFA8DA71F0A1413 /* AppState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		E7CE6516954B51367BFE1F7F /* LiteraryExampleSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiteraryExampleSheet.swift; sourceTree = "<group>"; };
 		6078949DFFF0736A4DEF02C0 /* literary_examples.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = literary_examples.json; sourceTree = "<group>"; };
 		680645DB9079456859A3D4A1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		55A17BE1EDFA8DA71F0A1413 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -95,6 +97,7 @@
 		403AB9EA7AD74CEF9B5F646F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				55A17BE1EDFA8DA71F0A1413 /* AppState.swift */,
 				EDB299F76F972D9C2035716C /* Book.swift */,
 				85D079C3174A5C57D9854BC3 /* BookChunk.swift */,
 				1E89E0028391A2F50E200782 /* ChatMessage.swift */,
@@ -235,6 +238,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A60951457A523A7059FA7ACC /* AppState.swift in Sources */,
 				5B7BCFA080C779C3F95CBAFA /* Book.swift in Sources */,
 				C317F59BD51FEB00B3105F28 /* BookChunk.swift in Sources */,
 				9CD6162B5DA4E310E74439DF /* CadernoView.swift in Sources */,

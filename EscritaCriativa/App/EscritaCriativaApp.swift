@@ -14,10 +14,13 @@ struct EscritaCriativaApp: App {
         return try! ModelContainer(for: schema)
     }()
 
+    @State private var appState = AppState()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .modelContainer(container)
+                .environment(appState)
                 .onAppear {
                     TipsService.seedIfNeeded(context: container.mainContext)
                 }

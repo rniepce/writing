@@ -68,7 +68,8 @@ final class DeepSeekService {
     func stream(
         userMessage: String,
         history: [ChatMessage],
-        ragContext: String? = nil
+        ragContext: String? = nil,
+        notesContext: String? = nil
     ) -> AsyncThrowingStream<String, Error> {
         AsyncThrowingStream { continuation in
             Task {
@@ -87,6 +88,13 @@ final class DeepSeekService {
                         apiMessages.append([
                             "role": "system",
                             "content": "Contexto relevante dos livros de referência:\n\(context)"
+                        ])
+                    }
+
+                    if let notes = notesContext, !notes.trimmingCharacters(in: .whitespaces).isEmpty {
+                        apiMessages.append([
+                            "role": "system",
+                            "content": "O usuário anexou este trecho do próprio caderno (rascunho/cena/ideia) para sua análise e feedback. Leia com atenção e use-o como o objeto principal da resposta:\n\n\(notes)"
                         ])
                     }
 

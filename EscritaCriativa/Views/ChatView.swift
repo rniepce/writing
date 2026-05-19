@@ -5,6 +5,7 @@ struct ChatView: View {
     @Query(sort: \ChatMessage.timestamp) private var messages: [ChatMessage]
     @Query private var allChunks: [BookChunk]
     @Environment(\.modelContext) private var context
+    @Environment(AppState.self) private var appState
 
     @State private var input = ""
     @State private var isLoading = false
@@ -144,6 +145,10 @@ struct ChatView: View {
 
     private var inputBar: some View {
         VStack(spacing: 0) {
+            if appState.pendingChatContext != nil {
+                attachmentChip
+            }
+
             if useRAG {
                 ragBanner
             }
@@ -209,6 +214,39 @@ struct ChatView: View {
         .background(Color.accentInk.opacity(0.08))
     }
 
+    private var attachmentChip: some View {
+        HStack(spacing: Spacing.xs) {
+            Image(systemName: "paperclip")
+                .font(.caption)
+                .foregroundStyle(Color.accentInk)
+            VStack(alignment: .leading, spacing: 0) {
+                Text(appState.pendingChatContextLabel ?? "Trecho do Caderno")
+                    .font(.captionSerif)
+                    .foregroundStyle(Color.inkPrimary)
+                    .lineLimit(1)
+                Text("\(wordCount(appState.pendingChatContext ?? "")) palavras anexadas")
+                    .font(.captionMono)
+                    .foregroundStyle(Color.inkTertiary)
+            }
+            Spacer()
+            Button {
+                appState.clearChatAttachment()
+            } label: {
+                Image(systemName: "xmark.circle.fill")
+                    .font(.body)
+                    .foregroundStyle(Color.inkTertiary)
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(.horizontal, Spacing.md)
+        .padding(.vertical, Spacing.xs)
+        .background(Color.accentInk.opacity(0.08))
+    }
+
+    private func wordCount(_ s: String) -> Int {
+        s.split(whereSeparator: { $0.isWhitespace || $0.isNewline }).count
+    }
+
     private var canSend: Bool {
         !input.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && !isLoading
     }
@@ -235,11 +273,15 @@ struct ChatView: View {
             }
         }
 
+        // Captura e consome o attachment do Caderno (se houver).
+        let notesContext = appState.pendingChatContext
+
         do {
             for try await token in DeepSeekService.shared.stream(
                 userMessage: userText,
                 history: historySnapshot,
-                ragContext: ragContext
+                ragContext: ragContext,
+                notesContext: notesContext
             ) {
                 streamingText += token
             }
@@ -248,6 +290,11 @@ struct ChatView: View {
             context.insert(assistantMsg)
             try? context.save()
             streamingText = ""
+
+            // Sucesso: trecho anexado já cumpriu sua função.
+            if notesContext != nil {
+                appState.clearChatAttachment()
+            }
         } catch {
             errorMessage = error.localizedDescription
         }

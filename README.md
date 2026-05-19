@@ -1,47 +1,99 @@
 # Escrita Criativa — iOS App
 
-App para iPhone que funciona como companheiro de escrita criativa de ficção.
+Companheiro de escrita criativa de ficção para iPhone. Caderno, dicas diárias,
+chat com IA, RAG on-device sobre livros de craft, e exemplos canônicos da
+literatura que ilustram cada lição.
 
 ## Funcionalidades
 
-- **Dica do Dia** — uma dica de craft por dia, curada por você
-- **Chat** — conversa com DeepSeek sobre técnicas de escrita
-- **RAG on-device** — importa PDFs de livros sobre escrita e consulta localmente (BM25)
-- **Biblioteca** — gerencie seus livros de referência
+- **Caderno** — escreva cenas, esboce personagens, anote ideias. Editor
+  serifado, tags (Cena / Personagem / Ideia / Diário / Outro), contagem de
+  palavras, auto-save. Cada nota tem um botão "Consultar livros" que roda o
+  RAG sem sair do editor.
+- **Hoje** — uma dica de craft por dia, curada por você. Cada dica vem com
+  um botão "Ver exemplo na ficção" que abre um trecho literário canônico
+  (Tolstoy, Joyce, Chekhov, Hemingway, etc.) que ilustra o princípio.
+- **Chat** — conversa em streaming com DeepSeek V4 sobre técnicas de
+  escrita. Toggle 📚 ativa o RAG, injetando trechos do seu acervo como
+  contexto pra LLM.
+- **Livros** — importe PDFs sobre o ofício; o app extrai com `PDFKit`,
+  quebra em chunks e indexa via BM25 (Jaccard) no SwiftData local.
+- **Ajustes** — chave da DeepSeek no Keychain, seletor entre V4 Pro
+  (qualidade) e V4 Flash (latência).
+
+## Visual
+
+Identidade "papel + tinta": tipografia serifada (New York via `.serif`),
+paleta creme/oxblood (light) e couro envelhecido/amber (dark). Definido
+num único arquivo: [`EscritaCriativa/Theme/Theme.swift`](EscritaCriativa/Theme/Theme.swift).
+
+App icon: `e` lowercase serifado em ink primary sobre paperPrimary, gerado
+a partir do mesmo design system.
 
 ## Setup
 
 ### Pré-requisitos
 
 - Xcode 15+
-- iOS 17+ (target)
-- [XcodeGen](https://github.com/yonaskolb/XcodeGen): `brew install xcodegen`
-- Chave de API do [DeepSeek](https://platform.deepseek.com)
+- iPhone com iOS 17+ (target)
+- [XcodeGen](https://github.com/yonaskolb/XcodeGen) (opcional, só se for
+  regenerar o `.xcodeproj` a partir do `project.yml`): `brew install xcodegen`
+- Chave de API da [DeepSeek](https://platform.deepseek.com)
 
-### Gerar o projeto Xcode
+### Rodar
 
 ```bash
-cd writing/
-xcodegen generate
 open EscritaCriativa.xcodeproj
 ```
 
+Em **Signing & Capabilities**, escolha seu **Team**. `⌘R` no Xcode pra
+instalar no iPhone.
+
 ### Configurar a API Key
 
-No app, vá em **Config → DeepSeek API** e insira sua chave. Ela é salva com segurança no Keychain do iPhone.
+Dentro do app: **Ajustes → Chave do DeepSeek → Salvar**. Vai pro Keychain
+e nunca sai do device exceto na chamada à `api.deepseek.com`.
 
-### Adicionar suas dicas
+### Importar livros
 
-Edite `EscritaCriativa/Resources/tips_iniciais.json` antes de compilar, ou adicione novas dicas diretamente no app (em breve).
+Aba **Livros → +**: escolha um PDF do Files app. O app extrai texto,
+chunka e indexa automaticamente. Aguarde o "Indexando…" virar
+"N trechos indexados".
 
-### Adicionar livros ao RAG
-
-Na aba **Biblioteca**, toque em **+** e selecione um PDF do Files app. O app processa e indexa os trechos automaticamente no device.
+A pasta `rag/` na raiz do repo tem o pipeline equivalente em Python
+(ChromaDB + sentence-transformers multilíngue) para indexar e consultar
+os livros pelo Mac via CLI.
 
 ## Stack
 
-- SwiftUI + SwiftData (persistência on-device)
-- PDFKit (extração de texto de PDFs)
-- BM25 (busca semântica on-device, sem dependência externa)
-- DeepSeek API (LLM para chat e respostas contextualizadas)
-- Keychain (armazenamento seguro da API key)
+- **SwiftUI + SwiftData** — UI declarativa, persistência on-device
+- **PDFKit** — extração de texto dos PDFs
+- **BM25/Jaccard** — busca on-device sem embeddings
+- **DeepSeek API** (V4 Pro / V4 Flash) — LLM via streaming
+- **Keychain** — chave de API segura
+
+## Estrutura
+
+```
+EscritaCriativa/
+  App/                EscritaCriativaApp.swift
+  Models/             Book, BookChunk, ChatMessage, LiteraryExample, Note, Tip
+  Services/           DeepSeek, Keychain, LiteraryExamples, PDFIngestion, RAG, Tips
+  Theme/              Theme.swift  (cores, tipografia, modifiers reutilizáveis)
+  Views/              Caderno, Chat, Content, Home, Library, NoteEditor,
+                      LiteraryExampleSheet, Settings
+  Resources/          tips_iniciais.json, literary_examples.json
+  Assets.xcassets/    AppIcon
+
+rag/                  Pipeline Python: extract.py, build_index.py, query.py
+```
+
+## Roadmap (não feito)
+
+- Onboarding na primeira abertura
+- Handoff "Pedir ao chat" do Caderno → Chat com texto selecionado
+- Export de notas (markdown / PDF)
+- Visualização dos favoritos da Dica do Dia
+- Sync iCloud opcional do Caderno
+- PDF ingestion nativa de EPUB/FB2 (hoje só PDF; converti os outros 6 do
+  meu acervo via `cupsfilter`)

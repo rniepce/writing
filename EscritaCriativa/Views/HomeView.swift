@@ -3,12 +3,14 @@ import SwiftData
 
 struct HomeView: View {
     @Query private var tips: [Tip]
+    @Query private var notes: [Note]
     @State private var randomTip: Tip?
     @State private var heartScale: CGFloat = 1
     @State private var showExampleSheet = false
 
     private var displayTip: Tip? { randomTip ?? TipsService.todayTip(from: tips) }
     private var isDaily: Bool { randomTip == nil }
+    private var stats: WritingStats { WritingStats.from(notes: notes) }
 
     var body: some View {
         NavigationStack {
@@ -23,6 +25,9 @@ struct HomeView: View {
                             onSeeExample: { showExampleSheet = true }
                         )
                         actions
+                        if stats.hasAnyActivity {
+                            statsStrip
+                        }
                     } else {
                         emptyState
                     }
@@ -79,6 +84,44 @@ struct HomeView: View {
             }
         }
         .padding(.top, Spacing.xs)
+    }
+
+    private var statsStrip: some View {
+        HStack(spacing: 0) {
+            statColumn(value: "\(stats.wordsThisWeek)", label: "palavras\nesta semana")
+            Divider().background(Color.inkDivider)
+            statColumn(
+                value: "\(stats.currentStreak)",
+                label: stats.currentStreak == 1 ? "dia\nde escrita" : "dias\nseguidos"
+            )
+            Divider().background(Color.inkDivider)
+            statColumn(value: "\(stats.totalNotes)", label: stats.totalNotes == 1 ? "nota\nno caderno" : "notas\nno caderno")
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, Spacing.sm)
+        .background(
+            RoundedRectangle(cornerRadius: Corner.md, style: .continuous)
+                .fill(Color.paperRaised)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: Corner.md, style: .continuous)
+                .strokeBorder(Color.inkDivider, lineWidth: 0.5)
+        )
+    }
+
+    private func statColumn(value: String, label: String) -> some View {
+        VStack(spacing: 2) {
+            Text(value)
+                .font(.display(22, weight: .semibold))
+                .foregroundStyle(Color.accentInk)
+            Text(label)
+                .font(.captionSerifSmall)
+                .foregroundStyle(Color.inkSecondary)
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity)
     }
 
     private var emptyState: some View {

@@ -34,6 +34,7 @@
 		A4D6917FACE5DA89BA624030 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 680645DB9079456859A3D4A1 /* Assets.xcassets */; };
 		A60951457A523A7059FA7ACC /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A17BE1EDFA8DA71F0A1413 /* AppState.swift */; };
 		4EBB8DD886816A29EED95D13 /* WritingStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23126DBD6AE9AEAD30A8F41A /* WritingStats.swift */; };
+		0D1B3E3B23604EEDBD5A965C /* FavoriteTipsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89526D51370598A42E1AF6E4 /* FavoriteTipsSheet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		680645DB9079456859A3D4A1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		55A17BE1EDFA8DA71F0A1413 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		23126DBD6AE9AEAD30A8F41A /* WritingStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingStats.swift; sourceTree = "<group>"; };
+		89526D51370598A42E1AF6E4 /* FavoriteTipsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTipsSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -148,6 +150,7 @@
 				A82D81CD195DDD0AA4C39777 /* CadernoView.swift */,
 				8A410C7AE315998B06B16911 /* ChatView.swift */,
 				EDBA4F99BF63B8D365B021CD /* ContentView.swift */,
+				89526D51370598A42E1AF6E4 /* FavoriteTipsSheet.swift */,
 				434A9BE04FF22A37053190C8 /* HomeView.swift */,
 				6CE1E5494918AC8E6FABBA1C /* LibraryView.swift */,
 				E7CE6516954B51367BFE1F7F /* LiteraryExampleSheet.swift */,
@@ -250,6 +253,7 @@
 				67F0FE28913A8AEDC42262FD /* ContentView.swift in Sources */,
 				67D2992F4DE5B19CCFEF8171 /* DeepSeekService.swift in Sources */,
 				64E485ED43BAF6716C1505D2 /* EscritaCriativaApp.swift in Sources */,
+				0D1B3E3B23604EEDBD5A965C /* FavoriteTipsSheet.swift in Sources */,
 				02055F2270DD911818D2BF15 /* HomeView.swift in Sources */,
 				E8C43C696C5D7971A063C871 /* KeychainService.swift in Sources */,
 				10F7BF6E71522437793A04F9 /* LibraryView.swift in Sources */,

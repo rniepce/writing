@@ -7,10 +7,12 @@ struct HomeView: View {
     @State private var randomTip: Tip?
     @State private var heartScale: CGFloat = 1
     @State private var showExampleSheet = false
+    @State private var showFavoritesSheet = false
 
     private var displayTip: Tip? { randomTip ?? TipsService.todayTip(from: tips) }
     private var isDaily: Bool { randomTip == nil }
     private var stats: WritingStats { WritingStats.from(notes: notes) }
+    private var favoritesCount: Int { tips.filter { $0.isFavorite }.count }
 
     var body: some View {
         NavigationStack {
@@ -41,10 +43,30 @@ struct HomeView: View {
             .navigationBarTitleDisplayMode(.large)
             .toolbarBackground(Color.paperPrimary, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showFavoritesSheet = true
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: favoritesCount > 0 ? "heart.fill" : "heart")
+                            if favoritesCount > 0 {
+                                Text("\(favoritesCount)")
+                                    .font(.captionMono)
+                            }
+                        }
+                        .foregroundStyle(Color.accentInk)
+                    }
+                    .accessibilityLabel("Dicas favoritas (\(favoritesCount))")
+                }
+            }
             .sheet(isPresented: $showExampleSheet) {
                 if let tip = displayTip {
                     LiteraryExampleSheet(query: tip.content, topK: 1)
                 }
+            }
+            .sheet(isPresented: $showFavoritesSheet) {
+                FavoriteTipsSheet()
             }
         }
     }

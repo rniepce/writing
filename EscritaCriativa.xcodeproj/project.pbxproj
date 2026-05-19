@@ -23,6 +23,10 @@
 		C317F59BD51FEB00B3105F28 /* BookChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D079C3174A5C57D9854BC3 /* BookChunk.swift */; };
 		CE94453AFE383009C6C24A09 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A410C7AE315998B06B16911 /* ChatView.swift */; };
 		E8C43C696C5D7971A063C871 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECEA38074247E00D5217B3B /* KeychainService.swift */; };
+		12434F0D84964E88D817BBD4 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6238362E02052D147F0B788 /* Theme.swift */; };
+		A8119C0F9DAD2253A68CDD75 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF16BB001CBF3A2FEF0B41A /* Note.swift */; };
+		9CD6162B5DA4E310E74439DF /* CadernoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82D81CD195DDD0AA4C39777 /* CadernoView.swift */; };
+		985C90D77B641150855B5EB7 /* NoteEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B123B9672109F02C471C275 /* NoteEditorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +48,10 @@
 		F838B568DFF1DD495A291CA9 /* TipsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsService.swift; sourceTree = "<group>"; };
 		FA5CCE803FFB0CEFD686EEB2 /* EscritaCriativaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EscritaCriativaApp.swift; sourceTree = "<group>"; };
 		FD5A8AEF7D99CE694BA4F993 /* tips_iniciais.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = tips_iniciais.json; sourceTree = "<group>"; };
+		E6238362E02052D147F0B788 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		1BF16BB001CBF3A2FEF0B41A /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
+		A82D81CD195DDD0AA4C39777 /* CadernoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CadernoView.swift; sourceTree = "<group>"; };
+		9B123B9672109F02C471C275 /* NoteEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -79,6 +87,7 @@
 				EDB299F76F972D9C2035716C /* Book.swift */,
 				85D079C3174A5C57D9854BC3 /* BookChunk.swift */,
 				1E89E0028391A2F50E200782 /* ChatMessage.swift */,
+				1BF16BB001CBF3A2FEF0B41A /* Note.swift */,
 				4002644ADAE60A3D20F75ED4 /* Tip.swift */,
 			);
 			path = Models;
@@ -92,6 +101,7 @@
 				403AB9EA7AD74CEF9B5F646F /* Models */,
 				0E70585E89FDEFD18870AE28 /* Resources */,
 				B8511F90638768736FFFE91F /* Services */,
+				742F2C9C3BC7EE901E08FD2D /* Theme */,
 				8F98D035B4F8BF9F6B94E41A /* Views */,
 			);
 			path = EscritaCriativa;
@@ -108,10 +118,12 @@
 		8F98D035B4F8BF9F6B94E41A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A82D81CD195DDD0AA4C39777 /* CadernoView.swift */,
 				8A410C7AE315998B06B16911 /* ChatView.swift */,
 				EDBA4F99BF63B8D365B021CD /* ContentView.swift */,
 				434A9BE04FF22A37053190C8 /* HomeView.swift */,
 				6CE1E5494918AC8E6FABBA1C /* LibraryView.swift */,
+				9B123B9672109F02C471C275 /* NoteEditorView.swift */,
 				D08000E539AE49B17D812A6D /* SettingsView.swift */,
 			);
 			path = Views;
@@ -127,6 +139,14 @@
 				F838B568DFF1DD495A291CA9 /* TipsService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		742F2C9C3BC7EE901E08FD2D /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				E6238362E02052D147F0B788 /* Theme.swift */,
+			);
+			path = Theme;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -202,6 +222,7 @@
 			files = (
 				5B7BCFA080C779C3F95CBAFA /* Book.swift in Sources */,
 				C317F59BD51FEB00B3105F28 /* BookChunk.swift in Sources */,
+				9CD6162B5DA4E310E74439DF /* CadernoView.swift in Sources */,
 				866D94DFD82CEC5ED0C4E024 /* ChatMessage.swift in Sources */,
 				CE94453AFE383009C6C24A09 /* ChatView.swift in Sources */,
 				67F0FE28913A8AEDC42262FD /* ContentView.swift in Sources */,
@@ -210,9 +231,12 @@
 				02055F2270DD911818D2BF15 /* HomeView.swift in Sources */,
 				E8C43C696C5D7971A063C871 /* KeychainService.swift in Sources */,
 				10F7BF6E71522437793A04F9 /* LibraryView.swift in Sources */,
+				A8119C0F9DAD2253A68CDD75 /* Note.swift in Sources */,
+				985C90D77B641150855B5EB7 /* NoteEditorView.swift in Sources */,
 				7DA38393DD94BD2135C0901D /* PDFIngestionService.swift in Sources */,
 				B9AC54DDA98849A0E14F4881 /* RAGService.swift in Sources */,
 				20678B23B61A5CA19EEEB256 /* SettingsView.swift in Sources */,
+				12434F0D84964E88D817BBD4 /* Theme.swift in Sources */,
 				799944873A1FB5B7582B4CD9 /* Tip.swift in Sources */,
 				AAFA790C318793C6EAB81896 /* TipsService.swift in Sources */,
 			);

@@ -4,73 +4,139 @@ import SwiftData
 struct HomeView: View {
     @Query private var tips: [Tip]
     @State private var randomTip: Tip?
+    @State private var heartScale: CGFloat = 1
 
     private var displayTip: Tip? { randomTip ?? TipsService.todayTip(from: tips) }
+    private var isDaily: Bool { randomTip == nil }
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 24) {
+                VStack(spacing: Spacing.lg) {
                     if let tip = displayTip {
-                        TipCard(tip: tip, isDaily: randomTip == nil)
+                        dateHeader
+                        TipCard(tip: tip, isDaily: isDaily, heartScale: $heartScale)
+                        actions
                     } else {
-                        ContentUnavailableView(
-                            "Sem dicas",
-                            systemImage: "text.badge.plus",
-                            description: Text("Edite tips_iniciais.json e recompile para adicionar suas dicas.")
-                        )
-                    }
-
-                    Button("Dica aleatória") {
-                        randomTip = tips.filter { $0.id != displayTip?.id }.randomElement() ?? tips.randomElement()
-                    }
-                    .buttonStyle(.bordered)
-                    .disabled(tips.count <= 1)
-
-                    if randomTip != nil {
-                        Button("Voltar à dica do dia") { randomTip = nil }
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                        emptyState
                     }
                 }
-                .padding()
+                .padding(.horizontal, Spacing.lg)
+                .padding(.top, Spacing.md)
+                .padding(.bottom, Spacing.xl)
             }
-            .navigationTitle("Dica do Dia")
+            .paperBackground()
+            .navigationTitle("Hoje")
+            .navigationBarTitleDisplayMode(.large)
+            .toolbarBackground(Color.paperPrimary, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
         }
     }
+
+    // MARK: - Subviews
+
+    private var dateHeader: some View {
+        VStack(spacing: 2) {
+            Text(isDaily
+                 ? Date().formatted(.dateTime.weekday(.wide))
+                 : "Aleatória")
+                .font(.captionMono)
+                .foregroundStyle(Color.inkTertiary)
+                .textCase(.uppercase)
+            Text(Date().formatted(.dateTime.day().month(.wide).year()))
+                .font(.display(20, weight: .regular))
+                .foregroundStyle(Color.inkSecondary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top, Spacing.xs)
+    }
+
+    private var actions: some View {
+        VStack(spacing: Spacing.sm) {
+            Button {
+                drawRandomTip()
+            } label: {
+                Label("Sortear outra dica", systemImage: "shuffle")
+            }
+            .buttonStyle(OutlineInkButtonStyle())
+            .disabled(tips.count <= 1)
+
+            if randomTip != nil {
+                Button("Voltar à dica do dia") { randomTip = nil }
+                    .font(.captionSerif)
+                    .foregroundStyle(Color.inkSecondary)
+            }
+        }
+        .padding(.top, Spacing.xs)
+    }
+
+    private var emptyState: some View {
+        VStack(spacing: Spacing.sm) {
+            Image(systemName: "text.book.closed")
+                .font(.system(size: 48, weight: .ultraLight))
+                .foregroundStyle(Color.inkTertiary)
+            Text("Sem dicas")
+                .font(.title2Serif)
+                .foregroundStyle(Color.inkPrimary)
+            Text("Edite `tips_iniciais.json` e recompile\npara semear seu repertório.")
+                .font(.captionSerif)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(Color.inkSecondary)
+        }
+        .padding(Spacing.xl)
+        .frame(maxWidth: .infinity, minHeight: 400)
+    }
+
+    private func drawRandomTip() {
+        randomTip = tips.filter { $0.id != displayTip?.id }.randomElement() ?? tips.randomElement()
+    }
 }
+
+// MARK: - Card
 
 struct TipCard: View {
     @Bindable var tip: Tip
     let isDaily: Bool
+    @Binding var heartScale: CGFloat
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            if isDaily {
-                Label(Date().formatted(date: .long, time: .omitted), systemImage: "calendar")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
+        VStack(alignment: .leading, spacing: Spacing.md) {
+            Image(systemName: "quote.opening")
+                .font(.title2)
+                .foregroundStyle(Color.accentSoft)
 
             Text(tip.content)
-                .font(.title3)
+                .font(.system(.title3, design: .serif).weight(.regular))
+                .foregroundStyle(Color.inkPrimary)
+                .lineSpacing(4)
                 .fixedSize(horizontal: false, vertical: true)
 
-            HStack {
+            Divider()
+                .background(Color.inkDivider)
+
+            HStack(alignment: .center) {
                 Text(tip.source)
-                    .font(.caption)
-                    .foregroundStyle(.tertiary)
+                    .font(.captionSerif)
+                    .italic()
+                    .foregroundStyle(Color.inkSecondary)
                 Spacer()
                 Button {
-                    tip.isFavorite.toggle()
+                    withAnimation(.spring(response: 0.25, dampingFraction: 0.55)) {
+                        tip.isFavorite.toggle()
+                        heartScale = tip.isFavorite ? 1.25 : 0.85
+                    }
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.12)) {
+                        heartScale = 1
+                    }
                 } label: {
                     Image(systemName: tip.isFavorite ? "heart.fill" : "heart")
-                        .foregroundStyle(tip.isFavorite ? .red : .secondary)
+                        .font(.title3)
+                        .foregroundStyle(tip.isFavorite ? Color.accentInk : Color.inkSecondary)
+                        .scaleEffect(heartScale)
                 }
                 .buttonStyle(.plain)
             }
         }
-        .padding()
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .paperCard(cornerRadius: Corner.lg, padding: Spacing.lg)
     }
 }

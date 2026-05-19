@@ -31,6 +31,7 @@
 		678DB0935289197E25E24D83 /* LiteraryExamplesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BABF5AA2F90362BB68E69 /* LiteraryExamplesService.swift */; };
 		9891B05B5817706CD8886511 /* LiteraryExampleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7CE6516954B51367BFE1F7F /* LiteraryExampleSheet.swift */; };
 		51B0059F36BBDD403B9F6010 /* literary_examples.json in Resources */ = {isa = PBXBuildFile; fileRef = 6078949DFFF0736A4DEF02C0 /* literary_examples.json */; };
+		A4D6917FACE5DA89BA624030 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 680645DB9079456859A3D4A1 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		790BABF5AA2F90362BB68E69 /* LiteraryExamplesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiteraryExamplesService.swift; sourceTree = "<group>"; };
 		E7CE6516954B51367BFE1F7F /* LiteraryExampleSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiteraryExampleSheet.swift; sourceTree = "<group>"; };
 		6078949DFFF0736A4DEF02C0 /* literary_examples.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = literary_examples.json; sourceTree = "<group>"; };
+		680645DB9079456859A3D4A1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -115,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				9DD8C2AF368C6D63E018B5F1 /* Info.plist */,
+				680645DB9079456859A3D4A1 /* Assets.xcassets */,
 				8DF06761D0A8F9D9DE2755DA /* App */,
 				403AB9EA7AD74CEF9B5F646F /* Models */,
 				0E70585E89FDEFD18870AE28 /* Resources */,
@@ -219,6 +222,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4D6917FACE5DA89BA624030 /* Assets.xcassets in Resources */,
 				51B0059F36BBDD403B9F6010 /* literary_examples.json in Resources */,
 				C11BBC711C656707B4F33227 /* tips_iniciais.json in Resources */,
 			);

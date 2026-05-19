@@ -4,12 +4,14 @@ struct SettingsView: View {
     @State private var apiKey = ""
     @State private var hasKey = false
     @State private var showSavedAlert = false
+    @State private var selectedModelID = DeepSeekService.currentModelID
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: Spacing.md) {
                     apiCard
+                    modelCard
                     aboutCard
                     creditCard
                 }
@@ -86,11 +88,57 @@ struct SettingsView: View {
         .paperCard()
     }
 
+    private var modelCard: some View {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
+            sectionHeader("Modelo da IA", systemImage: "sparkles")
+
+            ForEach(DeepSeekService.availableModels) { model in
+                Button {
+                    selectedModelID = model.id
+                    DeepSeekService.currentModelID = model.id
+                } label: {
+                    HStack(alignment: .top, spacing: Spacing.sm) {
+                        Image(systemName: selectedModelID == model.id
+                              ? "largecircle.fill.circle"
+                              : "circle")
+                            .foregroundStyle(selectedModelID == model.id
+                                             ? Color.accentInk
+                                             : Color.inkTertiary)
+                            .font(.title3)
+                            .padding(.top, 2)
+
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(model.label)
+                                .font(.bodySerifEmphasis)
+                                .foregroundStyle(Color.inkPrimary)
+                            Text(model.description)
+                                .font(.captionSerif)
+                                .foregroundStyle(Color.inkSecondary)
+                                .multilineTextAlignment(.leading)
+                            Text(model.id)
+                                .font(.captionMono)
+                                .foregroundStyle(Color.inkTertiary)
+                                .padding(.top, 2)
+                        }
+                        Spacer()
+                    }
+                    .padding(.vertical, Spacing.xxs)
+                }
+                .buttonStyle(.plain)
+
+                if model.id != DeepSeekService.availableModels.last?.id {
+                    Divider().background(Color.inkDivider)
+                }
+            }
+        }
+        .paperCard()
+    }
+
     private var aboutCard: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
             sectionHeader("Sobre o app", systemImage: "info.circle")
             row("Versão", "1.0")
-            row("Modelo", "deepseek-chat")
+            row("Modelo atual", DeepSeekService.currentModel.label)
             row("Busca on-device", "BM25 (Jaccard)")
             row("Target", "iOS 17+")
         }

@@ -14,12 +14,50 @@ enum DeepSeekError: LocalizedError {
     }
 }
 
+/// Modelo da DeepSeek disponível na conta.
+struct DeepSeekModel: Identifiable, Hashable {
+    let id: String          // nome usado na chamada da API
+    let label: String       // label amigável no picker
+    let description: String // texto explicativo no picker
+}
+
 final class DeepSeekService {
     static let shared = DeepSeekService()
     private init() {}
 
+    // MARK: - Catálogo de modelos
+    // /v1/models (em 2026-05) retornou: deepseek-v4-flash, deepseek-v4-pro.
+    // `deepseek-chat` (legado) foi descontinuado.
+
+    static let availableModels: [DeepSeekModel] = [
+        DeepSeekModel(
+            id: "deepseek-v4-pro",
+            label: "DeepSeek V4 Pro",
+            description: "Respostas mais completas e raciocinadas. Recomendado para craft."
+        ),
+        DeepSeekModel(
+            id: "deepseek-v4-flash",
+            label: "DeepSeek V4 Flash",
+            description: "Respostas mais rápidas, ideal para conversas curtas."
+        ),
+    ]
+
+    static let defaultModelID = "deepseek-v4-pro"
+    private static let modelKey = "deepseek.modelID"
+
+    /// Modelo atualmente selecionado (lê de UserDefaults; padrão = Pro).
+    static var currentModelID: String {
+        get { UserDefaults.standard.string(forKey: modelKey) ?? defaultModelID }
+        set { UserDefaults.standard.set(newValue, forKey: modelKey) }
+    }
+
+    static var currentModel: DeepSeekModel {
+        availableModels.first { $0.id == currentModelID } ?? availableModels[0]
+    }
+
+    // MARK: - Endpoint
+
     private let baseURL = URL(string: "https://api.deepseek.com/v1/chat/completions")!
-    private let model = "deepseek-chat"
     private let systemPrompt = """
         Você é um assistente especializado em escrita criativa de ficção literária. \
         Ajude com técnicas narrativas, desenvolvimento de personagens, estrutura de enredo, \
@@ -58,7 +96,7 @@ final class DeepSeekService {
                     apiMessages.append(["role": "user", "content": userMessage])
 
                     let body: [String: Any] = [
-                        "model": model,
+                        "model": DeepSeekService.currentModelID,
                         "messages": apiMessages,
                         "stream": true,
                         "max_tokens": 1024

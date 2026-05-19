@@ -23,3 +23,10 @@ secrets.plist
 
 # XcodeGen
 # (project.yml is intentionally committed)
+
+# RAG: derived artifacts (extracted text + vector index).
+# These are rebuildable via `python3 rag/extract.py && python3 rag/build_index.py`
+# and may contain copyrighted material from the source books, so they are
+# intentionally excluded from version control.
+rag/chunks/
+rag/index/

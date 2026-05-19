@@ -175,8 +175,9 @@ struct NoteEditorView: View {
 
 // MARK: - Consult sheet
 
-/// Sheet com busca no índice on-device (BookChunk + RAGService).
-/// Inicializa o campo com `seedQuery` (último parágrafo ou título da nota).
+/// Sheet com busca no índice on-device (BookChunk + RAGService) e nos
+/// exemplos literários curados (LiteraryExamplesService). Inicializa o
+/// campo com `seedQuery` (último parágrafo ou título da nota).
 struct ConsultBooksSheet: View {
     let seedQuery: String
     @Environment(\.dismiss) private var dismiss
@@ -184,6 +185,7 @@ struct ConsultBooksSheet: View {
 
     @State private var query: String = ""
     @State private var results: [RetrievedChunk] = []
+    @State private var literaryHits: [LiteraryExample] = []
 
     var body: some View {
         NavigationStack {
@@ -191,12 +193,26 @@ struct ConsultBooksSheet: View {
                 searchBar
                     .padding(Spacing.md)
 
-                if allChunks.isEmpty {
-                    emptyLibrary
-                } else if results.isEmpty {
-                    placeholder
-                } else {
-                    resultList
+                ScrollView {
+                    LazyVStack(spacing: Spacing.sm) {
+                        if !literaryHits.isEmpty {
+                            literarySection
+                        }
+
+                        if !results.isEmpty {
+                            bookSection
+                        }
+
+                        if results.isEmpty && literaryHits.isEmpty {
+                            if allChunks.isEmpty {
+                                emptyLibrary
+                            } else {
+                                placeholder
+                            }
+                        }
+                    }
+                    .padding(.horizontal, Spacing.md)
+                    .padding(.bottom, Spacing.lg)
                 }
             }
             .paperBackground()
@@ -215,6 +231,83 @@ struct ConsultBooksSheet: View {
                 runSearch()
             }
         }
+    }
+
+    // MARK: - Sections
+
+    private var literarySection: some View {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
+            sectionLabel("Exemplos da literatura", systemImage: "books.vertical.fill")
+            ForEach(literaryHits) { ex in
+                literaryCard(ex)
+            }
+        }
+        .padding(.top, Spacing.xs)
+    }
+
+    private var bookSection: some View {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
+            sectionLabel("Dicas do seu acervo", systemImage: "text.book.closed")
+            ForEach(Array(results.enumerated()), id: \.offset) { _, hit in
+                bookCard(hit)
+            }
+        }
+        .padding(.top, Spacing.sm)
+    }
+
+    private func sectionLabel(_ title: String, systemImage: String) -> some View {
+        HStack(spacing: 6) {
+            Image(systemName: systemImage)
+                .font(.caption)
+            Text(title.uppercased())
+                .font(.captionMono)
+        }
+        .foregroundStyle(Color.inkTertiary)
+        .padding(.leading, Spacing.xs)
+    }
+
+    private func literaryCard(_ ex: LiteraryExample) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(ex.principlePT)
+                .font(.captionSerif)
+                .italic()
+                .foregroundStyle(Color.inkSecondary)
+            Text(ex.passage)
+                .font(.bodySerif)
+                .foregroundStyle(Color.inkPrimary)
+                .lineLimit(6)
+                .padding(.top, 2)
+            HStack(spacing: 4) {
+                Text(ex.author).font(.captionSerifSmall).italic()
+                Text("·")
+                Text(ex.source)
+                Text("·")
+                Text(String(ex.year))
+            }
+            .font(.captionSerifSmall)
+            .foregroundStyle(Color.accentInk)
+            .padding(.top, 4)
+        }
+        .paperCard()
+    }
+
+    private func bookCard(_ hit: RetrievedChunk) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Text(hit.bookTitle)
+                    .font(.captionMono)
+                    .foregroundStyle(Color.accentInk)
+                Spacer()
+                Text(String(format: "%.0f%%", hit.score * 100))
+                    .font(.captionMono)
+                    .foregroundStyle(Color.inkTertiary)
+            }
+            Text(hit.content)
+                .font(.bodySerif)
+                .foregroundStyle(Color.inkPrimary)
+                .lineLimit(8)
+        }
+        .paperCard()
     }
 
     private var searchBar: some View {
@@ -262,8 +355,8 @@ struct ConsultBooksSheet: View {
                 .multilineTextAlignment(.center)
                 .foregroundStyle(Color.inkSecondary)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding()
+        .frame(maxWidth: .infinity)
+        .padding(.top, Spacing.xl)
     }
 
     private var placeholder: some View {
@@ -275,39 +368,18 @@ struct ConsultBooksSheet: View {
                 .font(.captionSerif)
                 .foregroundStyle(Color.inkSecondary)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-
-    private var resultList: some View {
-        ScrollView {
-            LazyVStack(spacing: Spacing.sm) {
-                ForEach(Array(results.enumerated()), id: \.offset) { idx, hit in
-                    VStack(alignment: .leading, spacing: 6) {
-                        HStack {
-                            Text(hit.bookTitle)
-                                .font(.captionMono)
-                                .foregroundStyle(Color.accentInk)
-                            Spacer()
-                            Text(String(format: "%.0f%%", hit.score * 100))
-                                .font(.captionMono)
-                                .foregroundStyle(Color.inkTertiary)
-                        }
-                        Text(hit.content)
-                            .font(.bodySerif)
-                            .foregroundStyle(Color.inkPrimary)
-                            .lineLimit(8)
-                    }
-                    .paperCard()
-                }
-            }
-            .padding(.horizontal, Spacing.md)
-            .padding(.bottom, Spacing.lg)
-        }
+        .frame(maxWidth: .infinity)
+        .padding(.top, Spacing.xl)
     }
 
     private func runSearch() {
         let q = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !q.isEmpty else { results = []; return }
+        guard !q.isEmpty else {
+            results = []
+            literaryHits = []
+            return
+        }
         results = RAGService.retrieve(query: q, from: allChunks, topK: 6)
+        literaryHits = LiteraryExamplesService.search(query: q, topK: 2)
     }
 }

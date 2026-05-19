@@ -1,0 +1,233 @@
+[
+  {
+    "id": "tolstoy_anna_karenina_opening",
+    "passage": "Happy families are all alike; every unhappy family is unhappy in its own way.",
+    "source": "Anna Karenina",
+    "author": "Leo Tolstoy",
+    "year": 1878,
+    "translation": "Constance Garnett",
+    "principle_pt": "Frase de abertura como tese — declarar um axioma e usar o romance inteiro pra testá-lo.",
+    "tags": ["abertura", "primeira frase", "tese", "voz", "narrador onisciente", "ironia"]
+  },
+  {
+    "id": "austen_pride_prejudice_opening",
+    "passage": "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
+    "source": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "year": 1813,
+    "principle_pt": "Ironia montada já na primeira linha: o narrador finge concordar com a sociedade que vai dissecar.",
+    "tags": ["abertura", "primeira frase", "ironia", "voz", "narrador onisciente", "sociedade"]
+  },
+  {
+    "id": "dickens_tale_two_cities_opening",
+    "passage": "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.",
+    "source": "A Tale of Two Cities",
+    "author": "Charles Dickens",
+    "year": 1859,
+    "principle_pt": "Ritmo construído por anáfora e paralelismo — frase longa que ganha urgência pela repetição.",
+    "tags": ["ritmo", "frases longas", "anáfora", "paralelismo", "abertura", "repetição"]
+  },
+  {
+    "id": "melville_moby_dick_opening",
+    "passage": "Call me Ishmael.",
+    "source": "Moby-Dick",
+    "author": "Herman Melville",
+    "year": 1851,
+    "principle_pt": "Frase curta de três palavras estabelece narrador, distância e mistério: por que 'Call me' e não 'My name is'?",
+    "tags": ["abertura", "primeira frase", "voz", "frases curtas", "ponto de vista", "primeira pessoa"]
+  },
+  {
+    "id": "kafka_metamorphosis_opening",
+    "passage": "As Gregor Samsa awoke one morning from uneasy dreams he found himself transformed in his bed into a gigantic insect.",
+    "source": "The Metamorphosis",
+    "author": "Franz Kafka",
+    "year": 1915,
+    "translation": "tradução de A.L. Lloyd (1937)",
+    "principle_pt": "Começar dentro da cena, tarde — o evento extraordinário já aconteceu, e o tom é de relato burocrático.",
+    "tags": ["abertura", "in medias res", "começar tarde", "primeira frase", "tom", "fantástico"]
+  },
+  {
+    "id": "dostoevsky_crime_punishment_opening",
+    "passage": "On an exceptionally hot evening early in July a young man came out of the garret in which he lodged in S. Place and walked slowly, as though in hesitation, towards K. bridge.",
+    "source": "Crime and Punishment",
+    "author": "Fyodor Dostoevsky",
+    "year": 1866,
+    "translation": "Constance Garnett",
+    "principle_pt": "Detalhe específico (calor de julho, sótão, hesitação) constrói atmosfera psicológica sem explicar.",
+    "tags": ["detalhe específico", "atmosfera", "mostrar não contar", "abertura", "psicologia", "ambientação"]
+  },
+  {
+    "id": "conrad_heart_of_darkness_opening",
+    "passage": "The Nellie, a cruising yawl, swung to her anchor without a flutter of the sails, and was at rest. The flood had made, the wind was nearly calm, and being bound down the river, the only thing for it was to come to and wait for the turn of the tide.",
+    "source": "Heart of Darkness",
+    "author": "Joseph Conrad",
+    "year": 1899,
+    "principle_pt": "Atmosfera de espera e imobilidade já no primeiro parágrafo — o ambiente prepara o tom da narrativa-moldura.",
+    "tags": ["atmosfera", "ambientação", "narrativa moldura", "abertura", "imobilidade"]
+  },
+  {
+    "id": "joyce_the_dead_ending",
+    "passage": "His soul swooned slowly as he heard the snow falling faintly through the universe and faintly falling, like the descent of their last end, upon all the living and the dead.",
+    "source": "The Dead (Dubliners)",
+    "author": "James Joyce",
+    "year": 1914,
+    "principle_pt": "Epifania final pelo ritmo: pares (faintly falling / falling faintly), aliteração, cadência longa que abre o conto pro universal.",
+    "tags": ["epifania", "ritmo", "final", "frases longas", "repetição", "aliteração", "conto"]
+  },
+  {
+    "id": "joyce_araby_ending",
+    "passage": "Gazing up into the darkness I saw myself as a creature driven and derided by vanity; and my eyes burned with anguish and anger.",
+    "source": "Araby (Dubliners)",
+    "author": "James Joyce",
+    "year": 1914,
+    "principle_pt": "Interioridade que vira julgamento — o narrador adolescente se vê de fora, e a vergonha é mostrada pela imagem física dos olhos queimando.",
+    "tags": ["interioridade", "epifania", "primeira pessoa", "mostrar não contar", "vergonha", "final", "POV"]
+  },
+  {
+    "id": "chekhov_lady_with_dog_opening",
+    "passage": "It was said that a new person had appeared on the sea-front: a lady with a little dog. Dmitri Dmitritch Gurov, who had by then been a fortnight at Yalta, and so was fairly at home there, had begun to take an interest in new arrivals.",
+    "source": "The Lady with the Dog",
+    "author": "Anton Chekhov",
+    "year": 1899,
+    "translation": "Constance Garnett",
+    "principle_pt": "Voz de boato — 'it was said' — distância narrativa que finge ser fofoca antes de aproximar do drama íntimo.",
+    "tags": ["voz", "distância narrativa", "abertura", "boato", "narrador onisciente", "conto"]
+  },
+  {
+    "id": "hemingway_hills_white_elephants_dialogue",
+    "passage": "'They look like white elephants,' she said.\n'I've never seen one,' the man drank his beer.\n'No, you wouldn't have.'\n'I might have,' the man said. 'Just because you say I wouldn't have doesn't prove anything.'",
+    "source": "Hills Like White Elephants",
+    "author": "Ernest Hemingway",
+    "year": 1927,
+    "principle_pt": "Subtexto puro: nenhum dos dois nomeia o assunto real (aborto), e o conflito vive no que NÃO é dito.",
+    "tags": ["diálogo", "subtexto", "mostrar não contar", "restrição", "conflito", "casal", "conto"]
+  },
+  {
+    "id": "crane_open_boat_opening",
+    "passage": "None of them knew the color of the sky. Their eyes glanced level, and were fastened upon the waves that swept toward them.",
+    "source": "The Open Boat",
+    "author": "Stephen Crane",
+    "year": 1897,
+    "principle_pt": "POV coletivo em frase curta — em quatro náufragos, ninguém olhou pra cima. O detalhe sensorial define o ponto de vista físico.",
+    "tags": ["POV", "ponto de vista", "frases curtas", "detalhe sensorial", "abertura", "primeira frase"]
+  },
+  {
+    "id": "chopin_awakening_opening",
+    "passage": "A green and yellow parrot, which hung in a cage outside the door, kept repeating over and over: 'Allez vous-en! Allez vous-en! Sapristi! That's all right!'",
+    "source": "The Awakening",
+    "author": "Kate Chopin",
+    "year": 1899,
+    "principle_pt": "Detalhe específico bizarro abrindo o romance — o papagaio mandando ir embora é símbolo e ruído ambiente ao mesmo tempo.",
+    "tags": ["detalhe específico", "abertura", "símbolo", "atmosfera", "ironia"]
+  },
+  {
+    "id": "poe_tell_tale_opening",
+    "passage": "TRUE!—nervous—very, very dreadfully nervous I had been and am; but why will you say that I am mad?",
+    "source": "The Tell-Tale Heart",
+    "author": "Edgar Allan Poe",
+    "year": 1843,
+    "principle_pt": "Narrador não confiável apresentado em duas linhas: protesto demais, pontuação fragmentada, pergunta retórica defensiva.",
+    "tags": ["narrador não confiável", "voz", "abertura", "primeira pessoa", "ritmo", "pontuação"]
+  },
+  {
+    "id": "melville_bartleby_line",
+    "passage": "'I would prefer not to.'",
+    "source": "Bartleby, the Scrivener",
+    "author": "Herman Melville",
+    "year": 1853,
+    "principle_pt": "Diálogo que é o conto inteiro — uma frase que recusa sem explicar, e o personagem se define pela repetição dela.",
+    "tags": ["diálogo", "personagem", "repetição", "recusa", "subtexto", "conto"]
+  },
+  {
+    "id": "bronte_wuthering_opening",
+    "passage": "1801.—I have just returned from a visit to my landlord—the solitary neighbour that I shall be troubled with. This is certainly a beautiful country!",
+    "source": "Wuthering Heights",
+    "author": "Emily Brontë",
+    "year": 1847,
+    "principle_pt": "Narrador-moldura ingênuo: ele acha tudo charmoso, e nós vamos descobrir junto que está completamente enganado.",
+    "tags": ["narrador moldura", "narrador não confiável", "abertura", "ironia", "primeira pessoa"]
+  },
+  {
+    "id": "eliot_middlemarch_ending",
+    "passage": "...for the growing good of the world is partly dependent on unhistoric acts; and that things are not so ill with you and me as they might have been, is half owing to the number who lived faithfully a hidden life, and rest in unvisited tombs.",
+    "source": "Middlemarch",
+    "author": "George Eliot",
+    "year": 1871,
+    "principle_pt": "Final que generaliza pelo ritmo — frase longa em três tempos que dilata o particular pro universal.",
+    "tags": ["final", "frases longas", "ritmo", "tese", "narrador onisciente", "tema"]
+  },
+  {
+    "id": "dickens_christmas_carol_opening",
+    "passage": "Marley was dead, to begin with. There is no doubt whatever about that. The register of his burial was signed by the clergyman, the clerk, the undertaker, and the chief mourner. Scrooge signed it: and Scrooge's name was good upon 'Change, for anything he chose to put his hand to. Old Marley was as dead as a door-nail.",
+    "source": "A Christmas Carol",
+    "author": "Charles Dickens",
+    "year": 1843,
+    "principle_pt": "Voz de contador de história — frases curtas, aparte com o leitor, repetição cômica do fato central.",
+    "tags": ["voz", "abertura", "frases curtas", "humor", "repetição", "narrador"]
+  },
+  {
+    "id": "maupassant_necklace_intro",
+    "passage": "She was one of those pretty and charming girls born, as though fate had blundered over her, into a family of artisans. She had no dowry, no expectations, no means of being known, understood, loved, married by any rich and distinguished man; and she let herself be married to a little clerk at the Ministry of Public Instruction.",
+    "source": "The Necklace",
+    "author": "Guy de Maupassant",
+    "year": 1884,
+    "principle_pt": "Apresentação de personagem em parágrafo único: condição social, frustração, e a vontade já implícita.",
+    "tags": ["personagem", "apresentação", "vontade", "narrador onisciente", "conto", "abertura"]
+  },
+  {
+    "id": "anderson_hands_opening",
+    "passage": "Upon the half decayed veranda of a small frame house that stood near the edge of a ravine near the town of Winesburg, Ohio, a fat little old man walked nervously up and down.",
+    "source": "Hands (Winesburg, Ohio)",
+    "author": "Sherwood Anderson",
+    "year": 1919,
+    "principle_pt": "Detalhe específico de lugar (veranda meio podre, ravina) prepara o tom melancólico antes de o conflito aparecer.",
+    "tags": ["detalhe específico", "ambientação", "abertura", "atmosfera", "conto"]
+  },
+  {
+    "id": "wharton_house_mirth_opening",
+    "passage": "Selden paused in surprise. In the afternoon rush of the Grand Central Station his eyes had been refreshed by the sight of Miss Lily Bart.",
+    "source": "The House of Mirth",
+    "author": "Edith Wharton",
+    "year": 1905,
+    "principle_pt": "POV em close third — começar pela percepção de Selden, e a personagem-título entra através do olhar dele.",
+    "tags": ["POV", "terceira pessoa próxima", "abertura", "personagem", "olhar"]
+  },
+  {
+    "id": "cather_my_antonia_opening",
+    "passage": "I first heard of Ántonia on what seemed to me an interminable journey across the great midland plain of North America.",
+    "source": "My Ántonia",
+    "author": "Willa Cather",
+    "year": 1918,
+    "principle_pt": "Memória como motor narrativo — 'first heard of' avisa que o que vem é reconstrução, não testemunho direto.",
+    "tags": ["primeira pessoa", "memória", "abertura", "narrador", "lugar"]
+  },
+  {
+    "id": "saki_open_window_opening",
+    "passage": "'My aunt will be down presently, Mr. Nuttel,' said a very self-possessed young lady of fifteen; 'in the meantime you must try and put up with me.'",
+    "source": "The Open Window",
+    "author": "Saki (H. H. Munro)",
+    "year": 1914,
+    "principle_pt": "Diálogo já caracteriza: a expressão 'self-possessed' antes da frase e o tom de quem manda no espaço dizem tudo da menina.",
+    "tags": ["diálogo", "personagem", "apresentação", "abertura", "tom", "conto"]
+  },
+  {
+    "id": "tolstoy_ivan_ilyich_opening",
+    "passage": "During an interval in the Melvinski trial in the large building of the Law Courts, the members and public prosecutor met in Ivan Egorovich Shebek's private room, where the conversation turned on the celebrated Krasovski case.",
+    "source": "The Death of Ivan Ilyich",
+    "author": "Leo Tolstoy",
+    "year": 1886,
+    "translation": "Aylmer Maude",
+    "principle_pt": "Começar pela conversa banal dos colegas — Ivan já está morto, e a indiferença dos vivos vira o tema.",
+    "tags": ["abertura", "ironia", "começar tarde", "morte", "indiferença", "voz"]
+  },
+  {
+    "id": "flaubert_madame_bovary_charles",
+    "passage": "He had a way of writing down his thoughts which betrayed a soul averse from violent emotions. He kept a journal, in which were entered all his innocent expenditures down to the last sou.",
+    "source": "Madame Bovary",
+    "author": "Gustave Flaubert",
+    "year": 1856,
+    "translation": "Eleanor Marx-Aveling (1886)",
+    "principle_pt": "Caracterização por hábito mensurável — anotar gastos até o último centavo desenha o sujeito mais do que adjetivos.",
+    "tags": ["personagem", "detalhe específico", "mostrar não contar", "hábito", "apresentação"]
+  }
+]

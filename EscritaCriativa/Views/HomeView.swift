@@ -5,6 +5,7 @@ struct HomeView: View {
     @Query private var tips: [Tip]
     @State private var randomTip: Tip?
     @State private var heartScale: CGFloat = 1
+    @State private var showExampleSheet = false
 
     private var displayTip: Tip? { randomTip ?? TipsService.todayTip(from: tips) }
     private var isDaily: Bool { randomTip == nil }
@@ -15,7 +16,12 @@ struct HomeView: View {
                 VStack(spacing: Spacing.lg) {
                     if let tip = displayTip {
                         dateHeader
-                        TipCard(tip: tip, isDaily: isDaily, heartScale: $heartScale)
+                        TipCard(
+                            tip: tip,
+                            isDaily: isDaily,
+                            heartScale: $heartScale,
+                            onSeeExample: { showExampleSheet = true }
+                        )
                         actions
                     } else {
                         emptyState
@@ -30,6 +36,11 @@ struct HomeView: View {
             .navigationBarTitleDisplayMode(.large)
             .toolbarBackground(Color.paperPrimary, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
+            .sheet(isPresented: $showExampleSheet) {
+                if let tip = displayTip {
+                    LiteraryExampleSheet(query: tip.content, topK: 1)
+                }
+            }
         }
     }
 
@@ -98,6 +109,13 @@ struct TipCard: View {
     @Bindable var tip: Tip
     let isDaily: Bool
     @Binding var heartScale: CGFloat
+    var onSeeExample: () -> Void = {}
+
+    /// Pré-calcula se há um exemplo curado relevante pra essa dica.
+    /// Evita mostrar um botão que abriria um sheet vazio.
+    private var hasExample: Bool {
+        LiteraryExamplesService.best(for: tip.content) != nil
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
@@ -135,6 +153,22 @@ struct TipCard: View {
                         .scaleEffect(heartScale)
                 }
                 .buttonStyle(.plain)
+            }
+
+            if hasExample {
+                Button {
+                    onSeeExample()
+                } label: {
+                    HStack(spacing: 6) {
+                        Image(systemName: "books.vertical")
+                            .font(.caption)
+                        Text("Ver exemplo na ficção")
+                            .font(.calloutSerif)
+                    }
+                }
+                .buttonStyle(OutlineInkButtonStyle())
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.top, Spacing.xxs)
             }
         }
         .paperCard(cornerRadius: Corner.lg, padding: Spacing.lg)

@@ -7,9 +7,18 @@ enum DeepSeekError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .missingAPIKey:
-            return "Configure sua chave de API do DeepSeek nas Configurações."
+            return "Conecte sua chave do DeepSeek em Ajustes pra usar o chat."
         case .badResponse(let code):
-            return "Erro na API do DeepSeek (HTTP \(code))."
+            switch code {
+            case 401, 403:
+                return "Chave inválida ou expirada. Atualize em Ajustes."
+            case 429:
+                return "Limite de uso atingido. Tente em alguns minutos."
+            case 500...599:
+                return "DeepSeek está fora do ar (HTTP \(code)). Tente mais tarde."
+            default:
+                return "Não consegui falar com a DeepSeek (HTTP \(code))."
+            }
         }
     }
 }

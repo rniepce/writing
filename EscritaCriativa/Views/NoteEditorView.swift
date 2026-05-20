@@ -128,7 +128,7 @@ struct NoteEditorView: View {
             .focused($bodyFocused)
             .overlay(alignment: .topLeading) {
                 if note.body.isEmpty {
-                    Text("Escreva...")
+                    Text("Comece uma cena, anote uma ideia…")
                         .font(.bodySerif)
                         .foregroundStyle(Color.inkTertiary)
                         .padding(.top, 8)
@@ -149,7 +149,7 @@ struct NoteEditorView: View {
             Button {
                 showConsultSheet = true
             } label: {
-                Label("Consultar livros", systemImage: "books.vertical")
+                Label("Consultar acervo", systemImage: "books.vertical")
                     .font(.calloutSerif)
             }
             .buttonStyle(OutlineInkButtonStyle())
@@ -253,7 +253,7 @@ struct ConsultBooksSheet: View {
                 }
             }
             .paperBackground()
-            .navigationTitle("Consultar livros")
+            .navigationTitle("Consultar acervo")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -351,7 +351,7 @@ struct ConsultBooksSheet: View {
         HStack(spacing: Spacing.xs) {
             Image(systemName: "magnifyingglass")
                 .foregroundStyle(Color.inkSecondary)
-            TextField("Sobre o que você quer dica?", text: $query, axis: .vertical)
+            TextField("Cole um trecho ou descreva o tema", text: $query, axis: .vertical)
                 .font(.bodySerif)
                 .lineLimit(1...3)
                 .tint(Color.accentInk)
@@ -384,10 +384,10 @@ struct ConsultBooksSheet: View {
             Image(systemName: "books.vertical")
                 .font(.system(size: 40, weight: .ultraLight))
                 .foregroundStyle(Color.inkTertiary)
-            Text("Biblioteca vazia")
+            Text("Sem acervo importado")
                 .font(.title3Serif)
                 .foregroundStyle(Color.inkPrimary)
-            Text("Importe PDFs na aba Biblioteca\npara consultar dicas dos seus livros.")
+            Text("Importe PDFs na aba Livros\npra consultar dicas dos seus livros.")
                 .font(.captionSerif)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(Color.inkSecondary)

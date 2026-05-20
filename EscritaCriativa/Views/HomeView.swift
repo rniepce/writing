@@ -151,10 +151,10 @@ struct HomeView: View {
             Image(systemName: "text.book.closed")
                 .font(.system(size: 48, weight: .ultraLight))
                 .foregroundStyle(Color.inkTertiary)
-            Text("Sem dicas")
+            Text("Sem dicas por aqui ainda")
                 .font(.title2Serif)
                 .foregroundStyle(Color.inkPrimary)
-            Text("Edite `tips_iniciais.json` e recompile\npara semear seu repertório.")
+            Text("As dicas curadas do dia vão aparecer\nneste espaço quando estiverem prontas.")
                 .font(.captionSerif)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(Color.inkSecondary)
@@ -227,7 +227,7 @@ struct TipCard: View {
                     HStack(spacing: 6) {
                         Image(systemName: "books.vertical")
                             .font(.caption)
-                        Text("Ver exemplo na ficção")
+                        Text("Ver trecho ilustrativo")
                             .font(.calloutSerif)
                     }
                 }

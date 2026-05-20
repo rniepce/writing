@@ -78,14 +78,14 @@ struct LibraryView: View {
             Text("Estante vazia")
                 .font(.title2Serif)
                 .foregroundStyle(Color.inkPrimary)
-            Text("Importe PDFs de livros sobre o ofício\npara que a IA cite-os ao te aconselhar.")
+            Text("Importe PDFs sobre o ofício pra o app citar\ntrechos seus quando você perguntar.")
                 .font(.bodySerif)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(Color.inkSecondary)
             Button {
                 showPicker = true
             } label: {
-                Label("Adicionar primeiro livro", systemImage: "plus")
+                Label("Importar um PDF", systemImage: "plus")
             }
             .buttonStyle(InkButtonStyle())
             .padding(.top, Spacing.xs)

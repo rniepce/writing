@@ -28,7 +28,7 @@ struct SettingsView: View {
             .alert("Chave salva", isPresented: $showSavedAlert) {
                 Button("OK", role: .cancel) {}
             } message: {
-                Text("Sua chave fica no Keychain do iPhone.")
+                Text("Você já pode usar o Chat.")
             }
         }
     }
@@ -47,7 +47,7 @@ struct SettingsView: View {
                     .foregroundStyle(Color.inkSecondary)
             }
 
-            SecureField("Cole sua chave aqui", text: $apiKey)
+            SecureField("sk-…", text: $apiKey)
                 .font(.bodySerif)
                 .autocorrectionDisabled()
                 .textInputAutocapitalization(.never)
@@ -62,7 +62,7 @@ struct SettingsView: View {
                 )
 
             HStack(spacing: Spacing.xs) {
-                Button("Salvar") {
+                Button("Salvar chave") {
                     KeychainService.save(value: apiKey, forAccount: KeychainService.deepSeekKeyAccount)
                     hasKey = !apiKey.isEmpty
                     showSavedAlert = true
@@ -71,7 +71,7 @@ struct SettingsView: View {
                 .disabled(apiKey.trimmingCharacters(in: .whitespaces).isEmpty)
 
                 if hasKey {
-                    Button("Remover") {
+                    Button("Apagar chave") {
                         KeychainService.save(value: "", forAccount: KeychainService.deepSeekKeyAccount)
                         apiKey = ""
                         hasKey = false
@@ -80,7 +80,7 @@ struct SettingsView: View {
                 }
             }
 
-            Text("A chave fica salva no Keychain do iPhone e só é enviada para a DeepSeek.")
+            Text("Fica no Keychain do iPhone e só sai daqui na chamada pra api.deepseek.com.")
                 .font(.captionSerifSmall)
                 .foregroundStyle(Color.inkTertiary)
                 .padding(.top, Spacing.xxs)

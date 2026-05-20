@@ -92,7 +92,7 @@ struct CadernoView: View {
             Button {
                 createNewNote()
             } label: {
-                Label("Primeira nota", systemImage: "plus")
+                Label("Começar a escrever", systemImage: "square.and.pencil")
             }
             .buttonStyle(InkButtonStyle())
             .padding(.top, Spacing.xs)

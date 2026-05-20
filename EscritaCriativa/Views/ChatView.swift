@@ -36,13 +36,13 @@ struct ChatView: View {
                 inputBar
             }
             .paperBackground()
-            .navigationTitle("Conversa")
+            .navigationTitle("Chat")
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(Color.paperPrimary, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Limpar") { clearChat() }
+                    Button("Limpar conversa") { clearChat() }
                         .foregroundStyle(Color.accentInk)
                         .font(.calloutSerif)
                         .disabled(messages.isEmpty)
@@ -93,10 +93,10 @@ struct ChatView: View {
                         .font(.system(size: 48, weight: .ultraLight))
                         .foregroundStyle(Color.inkTertiary)
                         .padding(.bottom, Spacing.xs)
-                    Text("Pergunte sobre escrita")
+                    Text("Comece pelo que está te travando")
                         .font(.title2Serif)
                         .foregroundStyle(Color.inkPrimary)
-                    Text("Conecte uma chave do DeepSeek em Ajustes\ne comece pelo que está te travando agora.")
+                    Text("Pergunte sobre uma cena, um personagem,\num ritmo que não está funcionando.")
                         .font(.captionSerif)
                         .multilineTextAlignment(.center)
                         .foregroundStyle(Color.inkSecondary)
@@ -165,7 +165,7 @@ struct ChatView: View {
                 .buttonStyle(.plain)
                 .accessibilityLabel(useRAG ? "Desligar consulta aos livros" : "Ligar consulta aos livros")
 
-                TextField("Pergunta sobre escrita…", text: $input, axis: .vertical)
+                TextField("O que você quer entender melhor?", text: $input, axis: .vertical)
                     .font(.bodySerif)
                     .tint(Color.accentInk)
                     .lineLimit(1...5)
@@ -203,7 +203,7 @@ struct ChatView: View {
             Image(systemName: "books.vertical.fill")
                 .font(.caption)
             Text(allChunks.isEmpty
-                 ? "Sem livros indexados — importe PDFs na aba Livros."
+                 ? "Importe PDFs na aba Livros pra ativar a consulta."
                  : "Consultando \(allChunks.count) trechos dos seus livros.")
                 .font(.captionSerifSmall)
             Spacer()

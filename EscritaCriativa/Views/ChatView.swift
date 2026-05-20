@@ -342,18 +342,24 @@ struct MessageBubble: View {
 
 private struct ThinkingBubble: View {
     @State private var phase: Int = 0
-    let timer = Timer.publish(every: 0.35, on: .main, in: .common).autoconnect()
+    let timer = Timer.publish(every: 0.45, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        HStack(spacing: 4) {
-            ForEach(0..<3) { i in
-                Circle()
-                    .fill(Color.inkSecondary)
-                    .frame(width: 6, height: 6)
-                    .opacity(phase == i ? 1 : 0.3)
+        HStack(spacing: 6) {
+            Text("Pensando")
+                .font(.bodySerif)
+                .italic()
+                .foregroundStyle(Color.inkSecondary)
+            HStack(spacing: 3) {
+                ForEach(0..<3) { i in
+                    Circle()
+                        .fill(Color.inkSecondary)
+                        .frame(width: 4, height: 4)
+                        .opacity(phase == i ? 1 : 0.3)
+                }
             }
         }
-        .padding(.horizontal, Spacing.sm)
+        .padding(.horizontal, Spacing.sm + 2)
         .padding(.vertical, Spacing.xs + 2)
         .background(
             RoundedRectangle(cornerRadius: Corner.md, style: .continuous)

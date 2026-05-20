@@ -229,5 +229,143 @@
     "translation": "Eleanor Marx-Aveling (1886)",
     "principle_pt": "Caracterização por hábito mensurável — anotar gastos até o último centavo desenha o sujeito mais do que adjetivos.",
     "tags": ["personagem", "detalhe específico", "mostrar não contar", "hábito", "apresentação"]
+  },
+  {
+    "id": "twain_huck_finn_opening",
+    "passage": "You don't know about me without you have read a book by the name of The Adventures of Tom Sawyer; but that ain't no matter. That book was made by Mr. Mark Twain, and he told the truth, mainly. There was things which he stretched, but mainly he told the truth.",
+    "source": "Adventures of Huckleberry Finn",
+    "author": "Mark Twain",
+    "year": 1884,
+    "principle_pt": "Voz/dialeto desde a primeira frase — sintaxe oral ('without you have read'), pacto direto com o leitor sobre verdade e ficção.",
+    "tags": ["voz", "dialeto", "primeira pessoa", "abertura", "narrador", "oralidade"]
+  },
+  {
+    "id": "dickens_bleak_house_fog",
+    "passage": "Fog everywhere. Fog up the river, where it flows among green aits and meadows; fog down the river, where it rolls defiled among the tiers of shipping and the waterside pollutions of a great (and dirty) city. Fog on the Essex marshes, fog on the Kentish heights.",
+    "source": "Bleak House",
+    "author": "Charles Dickens",
+    "year": 1853,
+    "principle_pt": "Anáfora obsessiva ('Fog…') faz a paisagem virar personagem opressivo antes de qualquer ação humana.",
+    "tags": ["anáfora", "ambientação", "atmosfera", "abertura", "prosa poética", "repetição", "símbolo"]
+  },
+  {
+    "id": "stevenson_jekyll_hyde_utterson",
+    "passage": "Mr. Utterson the lawyer was a man of a rugged countenance, that was never lighted by a smile; cold, scanty and embarrassed in discourse; backward in sentiment; lean, long, dusty, dreary, and yet somehow lovable.",
+    "source": "Strange Case of Dr Jekyll and Mr Hyde",
+    "author": "Robert Louis Stevenson",
+    "year": 1886,
+    "principle_pt": "Lista de adjetivos negativos que termina em paradoxo ('and yet somehow lovable') — a virada salva o personagem do estereótipo.",
+    "tags": ["personagem", "apresentação", "adjetivos", "paradoxo", "narrador onisciente", "ritmo"]
+  },
+  {
+    "id": "wilde_dorian_gray_opening",
+    "passage": "The studio was filled with the rich odour of roses, and when the light summer wind stirred amidst the trees of the garden, there came through the open door the heavy scent of the lilac, or the more delicate perfume of the pink-flowering thorn.",
+    "source": "The Picture of Dorian Gray",
+    "author": "Oscar Wilde",
+    "year": 1891,
+    "principle_pt": "Sensação antes de personagem — o cheiro de rosas, lilás e espinhos floridos prepara o decadentismo do romance.",
+    "tags": ["detalhe sensorial", "olfato", "ambientação", "abertura", "atmosfera", "decadentismo"]
+  },
+  {
+    "id": "bronte_jane_eyre_opening",
+    "passage": "There was no possibility of taking a walk that day. We had been wandering, indeed, in the leafless shrubbery an hour in the morning; but since dinner (Mrs. Reed, when there was no company, dined early) the cold winter wind had brought with it clouds so sombre, and a rain so penetrating, that further out-door exercise was now out of the question.",
+    "source": "Jane Eyre",
+    "author": "Charlotte Brontë",
+    "year": 1847,
+    "principle_pt": "POV infantil — frio, chuva, casa fechada com Mrs. Reed; o mundo restringido da criança aparece como dado, não como queixa.",
+    "tags": ["POV infantil", "primeira pessoa", "abertura", "ambientação", "voz", "infância"]
+  },
+  {
+    "id": "doyle_scandal_bohemia_opening",
+    "passage": "To Sherlock Holmes she is always the woman. I have seldom heard him mention her under any other name. In his eyes she eclipses and predominates the whole of her sex.",
+    "source": "A Scandal in Bohemia",
+    "author": "Arthur Conan Doyle",
+    "year": 1891,
+    "principle_pt": "Voz de Watson — narrador que admira e observa de longe; abre com 'always' pra marcar que o caso virou referência.",
+    "tags": ["voz", "narrador secundário", "primeira pessoa", "abertura", "personagem", "detetive"]
+  },
+  {
+    "id": "stoker_dracula_journal",
+    "passage": "3 May. Bistritz.—Left Munich at 8:35 P.M., on 1st May, arriving at Vienna early next morning; should have arrived at 6:46, but train was an hour late. Buda-Pesth seems a wonderful place, from the glimpse which I got of it from the train and the little I could walk through the streets.",
+    "source": "Dracula",
+    "author": "Bram Stoker",
+    "year": 1897,
+    "principle_pt": "Diário como forma — datas, horários, observações neutras criam a sensação documental que o sobrenatural depois vai contaminar.",
+    "tags": ["epistolar", "diário", "primeira pessoa", "abertura", "documento", "horror"]
+  },
+  {
+    "id": "hardy_tess_opening",
+    "passage": "On an evening in the latter part of May a middle-aged man was walking homeward from Shaston to the village of Marlott, in the adjoining Vale of Blakemore, or Blackmoor.",
+    "source": "Tess of the d'Urbervilles",
+    "author": "Thomas Hardy",
+    "year": 1891,
+    "principle_pt": "Pastoral com gancho geográfico — o nome duplo do vale (Blakemore/Blackmoor) já avisa que o lugar tem duas versões, uma luminosa e uma sombria.",
+    "tags": ["pastoral", "ambientação", "abertura", "lugar", "símbolo", "geografia"]
+  },
+  {
+    "id": "ohenry_gift_magi_ending",
+    "passage": "And here I have lamely related to you the uneventful chronicle of two foolish children in a flat who most unwisely sacrificed for each other the greatest treasures of their house. But in a last word to the wise of these days let it be said that of all who give gifts these two were the wisest. Of all who give and receive gifts, such as they are wisest. Everywhere they are wisest. They are the magi.",
+    "source": "The Gift of the Magi",
+    "author": "O. Henry",
+    "year": 1905,
+    "principle_pt": "Reversão final — chama os personagens de 'foolish' e termina coroando-os; o narrador conduz o leitor da ironia pra reverência em três frases.",
+    "tags": ["final", "ironia", "reversão", "narrador", "tema", "amor", "conto"]
+  },
+  {
+    "id": "hawthorne_young_goodman_brown_opening",
+    "passage": "Young Goodman Brown came forth at sunset into the street at Salem village; but put his head back, after crossing the threshold, to exchange a parting kiss with his young wife. And Faith, as the wife was aptly named, thrust her own pretty head into the street, letting the wind play with the pink ribbons of her cap while she called to Goodman Brown.",
+    "source": "Young Goodman Brown",
+    "author": "Nathaniel Hawthorne",
+    "year": 1835,
+    "principle_pt": "Símbolo plantado na primeira página: a esposa chama-se 'Faith' (Fé) e usa fitas rosa — a partida do marido vira alegoria do abandono da fé.",
+    "tags": ["símbolo", "alegoria", "abertura", "personagem", "nome", "conto"]
+  },
+  {
+    "id": "crane_red_badge_sensory",
+    "passage": "The cold passed reluctantly from the earth, and the retiring fogs revealed an army stretched out on the hills, resting. As the landscape changed from brown to green, the army awakened, and began to tremble with eagerness at the noise of rumors.",
+    "source": "The Red Badge of Courage",
+    "author": "Stephen Crane",
+    "year": 1895,
+    "principle_pt": "Exército como criatura única que 'tremble', 'awakened' — a metáfora do corpo coletivo entra antes de qualquer soldado individual.",
+    "tags": ["metáfora", "ambientação", "guerra", "abertura", "personagem coletivo", "sensorial"]
+  },
+  {
+    "id": "tolstoy_hadji_murat_thistle",
+    "passage": "But I noticed in the dust on the road a small clump of the Tatar plant in flower, called by us a thistle... Two of its three stems were broken and the stump of a torn-off branch protruded; but the third stem still stuck up, although it too was soiled with black mud.",
+    "source": "Hadji Murat",
+    "author": "Leo Tolstoy",
+    "year": 1912,
+    "translation": "Aylmer Maude",
+    "principle_pt": "Imagem-frame: o cardo quebrado mas teimoso vira a metáfora explícita do guerreiro que o romance vai narrar.",
+    "tags": ["símbolo", "metáfora", "imagem", "abertura", "moldura", "natureza"]
+  },
+  {
+    "id": "dostoevsky_underground_opening",
+    "passage": "I am a sick man.... I am a spiteful man. I am an unattractive man. I believe my liver is diseased.",
+    "source": "Notes from Underground",
+    "author": "Fyodor Dostoevsky",
+    "year": 1864,
+    "translation": "Constance Garnett",
+    "principle_pt": "Quatro frases breves em primeira pessoa: confissão escalando do físico ao moral. O narrador se constrói por autoacusação.",
+    "tags": ["voz", "narrador não confiável", "primeira pessoa", "abertura", "frases curtas", "confissão"]
+  },
+  {
+    "id": "chekhov_gooseberries_weather",
+    "passage": "The whole sky had been overcast with rain-clouds from early morning; it was a still day, not hot, but heavy, as it is in grey dull weather when the clouds have been hanging over the country for a long while, when one expects rain and it does not come.",
+    "source": "Gooseberries",
+    "author": "Anton Chekhov",
+    "year": 1898,
+    "translation": "Constance Garnett",
+    "principle_pt": "Clima de espera — céu pesado, chuva que não vem. O parágrafo é puro estado emocional vestido de meteorologia.",
+    "tags": ["atmosfera", "clima", "estado de espírito", "abertura", "conto", "natureza"]
+  },
+  {
+    "id": "joyce_the_sisters_opening",
+    "passage": "There was no hope for him this time: it was the third stroke. Night after night I had passed the house (it was vacation time) and studied the lighted square of window: and night after night I had found it lighted in the same way, faintly and evenly.",
+    "source": "The Sisters (Dubliners)",
+    "author": "James Joyce",
+    "year": 1914,
+    "principle_pt": "Voz infantil que entende o adulto: 'no hope for him this time' soa como adulto reproduzindo um ouvido, e os 'night after night' marcam o tempo lento da criança que observa.",
+    "tags": ["POV infantil", "voz", "primeira pessoa", "abertura", "ritmo", "morte", "conto"]
   }
 ]

@@ -9,6 +9,7 @@ struct CadernoView: View {
     @State private var selectedTag: NoteTag? = nil
     @State private var newNote: Note? = nil  // sheet binding for editor
     @State private var navigateToNew: Bool = false
+    @State private var noteToDelete: Note? = nil
 
     var body: some View {
         NavigationStack {
@@ -28,6 +29,24 @@ struct CadernoView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     tagFilterMenu
                 }
+            }
+            .alert(
+                "Apagar nota?",
+                isPresented: Binding(
+                    get: { noteToDelete != nil },
+                    set: { if !$0 { noteToDelete = nil } }
+                ),
+                presenting: noteToDelete
+            ) { note in
+                Button("Apagar", role: .destructive) {
+                    delete(note)
+                    noteToDelete = nil
+                }
+                Button("Cancelar", role: .cancel) {
+                    noteToDelete = nil
+                }
+            } message: { note in
+                Text("\"\(note.displayTitle)\" será apagada permanentemente.")
             }
         }
     }
@@ -51,7 +70,7 @@ struct CadernoView: View {
                         .buttonStyle(.plain)
                         .contextMenu {
                             Button(role: .destructive) {
-                                delete(note)
+                                noteToDelete = note
                             } label: {
                                 Label("Apagar", systemImage: "trash")
                             }

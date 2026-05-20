@@ -10,6 +10,7 @@ struct NoteEditorView: View {
     @FocusState private var bodyFocused: Bool
     @State private var showConsultSheet = false
     @State private var showTagPicker = false
+    @State private var showDeleteConfirm = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -69,9 +70,7 @@ struct NoteEditorView: View {
                     }
                     Divider()
                     Button(role: .destructive) {
-                        context.delete(note)
-                        try? context.save()
-                        dismiss()
+                        showDeleteConfirm = true
                     } label: {
                         Label("Apagar nota", systemImage: "trash")
                     }
@@ -83,6 +82,16 @@ struct NoteEditorView: View {
         }
         .sheet(isPresented: $showConsultSheet) {
             ConsultBooksSheet(seedQuery: defaultConsultQuery)
+        }
+        .alert("Apagar nota?", isPresented: $showDeleteConfirm) {
+            Button("Apagar", role: .destructive) {
+                context.delete(note)
+                try? context.save()
+                dismiss()
+            }
+            Button("Cancelar", role: .cancel) {}
+        } message: {
+            Text("\"\(note.displayTitle)\" será apagada permanentemente.")
         }
         .toolbarBackground(Color.paperPrimary, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)

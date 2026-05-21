@@ -74,6 +74,59 @@ final class DeepSeekService {
         Seja direto, prático e cite exemplos quando relevante. Responda sempre em português.
         """
 
+    // MARK: - Classifier (auto-tag)
+
+    /// Classifica uma nota em uma das tags do app. Não-streaming, faz uma
+    /// única chamada curta. Retorna nil se a resposta for inesperada (não vai
+    /// estourar exceção pra que falha de auto-tag seja silenciosa).
+    func classify(text: String) async throws -> NoteTag? {
+        guard let apiKey = KeychainService.load(account: KeychainService.deepSeekKeyAccount),
+              !apiKey.trimmingCharacters(in: .whitespaces).isEmpty else {
+            throw DeepSeekError.missingAPIKey
+        }
+
+        // Limita o input pra não estourar o prompt — primeiros ~800 chars dão contexto suficiente.
+        let snippet = String(text.prefix(800))
+        let classifierPrompt = """
+            Classifique o texto abaixo em UMA destas categorias de uma nota de escrita criativa: \
+            Cena, Personagem, Ideia, Diário, Outro. \
+            Responda APENAS com a palavra exata da categoria, sem explicação, sem aspas.
+            """
+
+        let body: [String: Any] = [
+            "model": DeepSeekService.currentModelID,
+            "messages": [
+                ["role": "system", "content": classifierPrompt],
+                ["role": "user", "content": snippet],
+            ],
+            "stream": false,
+            "max_tokens": 8,
+            "temperature": 0.0,
+        ]
+
+        var request = URLRequest(url: baseURL)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try JSONSerialization.data(withJSONObject: body)
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+        let status = (response as? HTTPURLResponse)?.statusCode ?? 0
+        guard status == 200 else { throw DeepSeekError.badResponse(status) }
+
+        guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let choices = json["choices"] as? [[String: Any]],
+              let message = choices.first?["message"] as? [String: Any],
+              let content = message["content"] as? String
+        else { return nil }
+
+        // Normaliza: remove pontuação e espaços, tenta achar uma tag conhecida.
+        let cleaned = content
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .trimmingCharacters(in: CharacterSet.punctuationCharacters)
+        return NoteTag.allCases.first { $0.rawValue.caseInsensitiveCompare(cleaned) == .orderedSame }
+    }
+
     func stream(
         userMessage: String,
         history: [ChatMessage],

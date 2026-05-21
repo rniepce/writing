@@ -11,6 +11,7 @@ struct NoteEditorView: View {
     @State private var showConsultSheet = false
     @State private var showTagPicker = false
     @State private var showDeleteConfirm = false
+    @State private var classifyTask: Task<Void, Never>? = nil
 
     var body: some View {
         VStack(spacing: 0) {
@@ -59,6 +60,8 @@ struct NoteEditorView: View {
                         ForEach(NoteTag.allCases) { tag in
                             Button {
                                 note.tag = tag
+                                note.wasManuallyTagged = true
+                                classifyTask?.cancel()
                                 touch()
                             } label: {
                                 Label(
@@ -96,7 +99,11 @@ struct NoteEditorView: View {
         .toolbarBackground(Color.paperPrimary, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
         .onChange(of: note.title) { _, _ in touch() }
-        .onChange(of: note.body)  { _, _ in touch() }
+        .onChange(of: note.body)  { _, _ in
+            touch()
+            scheduleAutoClassify()
+        }
+        .onDisappear { classifyTask?.cancel() }
     }
 
     // MARK: - Subviews
@@ -216,6 +223,38 @@ struct NoteEditorView: View {
             return body
         }
         return "# \(title)\n\n\(body)"
+    }
+
+    /// Auto-classifica a nota via DeepSeek depois de N segundos sem digitação.
+    /// Só roda se:
+    ///  - usuário ainda não escolheu tag manualmente
+    ///  - corpo tem ao menos 80 caracteres (texto curto demais não classifica bem)
+    ///  - há chave da DeepSeek configurada (silenciosamente falha se não)
+    /// Cancela job anterior se ainda estiver pendente — debouncing.
+    private func scheduleAutoClassify() {
+        classifyTask?.cancel()
+        guard !note.wasManuallyTagged,
+              note.body.count >= 80
+        else { return }
+        let snapshot = note.body
+        classifyTask = Task { @MainActor in
+            try? await Task.sleep(for: .seconds(10))
+            if Task.isCancelled { return }
+            // Só prossegue se o body ainda é o mesmo (não rodou outra edição)
+            guard note.body == snapshot, !note.wasManuallyTagged else { return }
+            do {
+                if let tag = try await DeepSeekService.shared.classify(text: snapshot),
+                   note.tag != tag,
+                   !note.wasManuallyTagged
+                {
+                    note.tag = tag
+                    try? context.save()
+                }
+            } catch {
+                // Auto-tag é best-effort. Falhas silenciosas (sem chave, sem
+                // internet, modelo cuspiu lixo) não devem incomodar quem escreve.
+            }
+        }
     }
 }
 

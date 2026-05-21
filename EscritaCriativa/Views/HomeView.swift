@@ -26,6 +26,11 @@ struct HomeView: View {
                             heartScale: $heartScale,
                             onSeeExample: { showExampleSheet = true }
                         )
+                        .id(tip.id)
+                        .transition(.asymmetric(
+                            insertion: .opacity.combined(with: .scale(scale: 0.97)),
+                            removal: .opacity
+                        ))
                         actions
                         if stats.hasAnyActivity {
                             statsStrip
@@ -37,6 +42,9 @@ struct HomeView: View {
                 .padding(.horizontal, Spacing.lg)
                 .padding(.top, Spacing.md)
                 .padding(.bottom, Spacing.xl)
+            }
+            .refreshable {
+                drawRandomTip()
             }
             .paperBackground()
             .navigationTitle("Hoje")
@@ -109,17 +117,20 @@ struct HomeView: View {
     }
 
     private var statsStrip: some View {
-        HStack(spacing: 0) {
-            statColumn(value: "\(stats.wordsThisWeek)", label: "palavras\nesta semana")
+        VStack(spacing: Spacing.sm) {
+            HStack(spacing: 0) {
+                statColumn(value: "\(stats.wordsThisWeek)", label: "palavras\nesta semana")
+                Divider().background(Color.inkDivider)
+                statColumn(
+                    value: "\(stats.currentStreak)",
+                    label: stats.currentStreak == 1 ? "dia\nde escrita" : "dias\nseguidos"
+                )
+                Divider().background(Color.inkDivider)
+                statColumn(value: "\(stats.totalNotes)", label: stats.totalNotes == 1 ? "nota\nno caderno" : "notas\nno caderno")
+            }
             Divider().background(Color.inkDivider)
-            statColumn(
-                value: "\(stats.currentStreak)",
-                label: stats.currentStreak == 1 ? "dia\nde escrita" : "dias\nseguidos"
-            )
-            Divider().background(Color.inkDivider)
-            statColumn(value: "\(stats.totalNotes)", label: stats.totalNotes == 1 ? "nota\nno caderno" : "notas\nno caderno")
+            weekDots
         }
-        .frame(maxWidth: .infinity)
         .padding(.vertical, Spacing.sm)
         .background(
             RoundedRectangle(cornerRadius: Corner.md, style: .continuous)
@@ -129,6 +140,35 @@ struct HomeView: View {
             RoundedRectangle(cornerRadius: Corner.md, style: .continuous)
                 .strokeBorder(Color.inkDivider, lineWidth: 0.5)
         )
+    }
+
+    private var weekDots: some View {
+        HStack(spacing: 10) {
+            ForEach(Array(stats.last7DaysActivity.enumerated()), id: \.offset) { idx, active in
+                VStack(spacing: 3) {
+                    Circle()
+                        .fill(active ? Color.accentInk : Color.inkTertiary.opacity(0.3))
+                        .frame(width: 8, height: 8)
+                    Text(dayLetter(for: idx, total: stats.last7DaysActivity.count))
+                        .font(.captionMono)
+                        .foregroundStyle(idx == stats.last7DaysActivity.count - 1
+                                         ? Color.accentInk
+                                         : Color.inkTertiary)
+                }
+            }
+        }
+        .padding(.bottom, 2)
+    }
+
+    /// Letra do dia da semana (D/S/T/Q/Q/S/S) para o índice — o último item é hoje.
+    private func dayLetter(for idx: Int, total: Int) -> String {
+        let cal = Calendar.current
+        let dayOffset = -(total - 1 - idx)
+        let date = cal.date(byAdding: .day, value: dayOffset, to: Date()) ?? Date()
+        // weekday: 1 = domingo
+        let weekday = cal.component(.weekday, from: date)
+        let letters = ["D", "S", "T", "Q", "Q", "S", "S"]
+        return letters[(weekday - 1) % 7]
     }
 
     private func statColumn(value: String, label: String) -> some View {
@@ -164,7 +204,9 @@ struct HomeView: View {
     }
 
     private func drawRandomTip() {
-        randomTip = tips.filter { $0.id != displayTip?.id }.randomElement() ?? tips.randomElement()
+        withAnimation(.easeInOut(duration: 0.35)) {
+            randomTip = tips.filter { $0.id != displayTip?.id }.randomElement() ?? tips.randomElement()
+        }
     }
 }
 

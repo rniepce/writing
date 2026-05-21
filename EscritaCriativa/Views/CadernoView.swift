@@ -26,6 +26,18 @@ struct CadernoView: View {
             .toolbarBackground(.visible, for: .navigationBar)
             .searchable(text: $search, prompt: "Buscar nas notas")
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    if !notes.isEmpty {
+                        ShareLink(
+                            item: allNotesAsMarkdown,
+                            subject: Text("Caderno — Escrita Criativa"),
+                            preview: SharePreview("Todas as notas")
+                        ) {
+                            Image(systemName: "square.and.arrow.up")
+                                .foregroundStyle(Color.accentInk)
+                        }
+                    }
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     tagFilterMenu
                 }
@@ -59,20 +71,24 @@ struct CadernoView: View {
             emptyState
         } else {
             ScrollView {
-                LazyVStack(spacing: Spacing.sm) {
+                LazyVStack(alignment: .leading, spacing: Spacing.sm, pinnedViews: []) {
                     metaHeader
-                    ForEach(filteredNotes) { note in
-                        NavigationLink {
-                            NoteEditorView(note: note)
-                        } label: {
-                            NoteRow(note: note)
+                    if isFiltering {
+                        ForEach(filteredNotes) { note in
+                            noteLink(note)
                         }
-                        .buttonStyle(.plain)
-                        .contextMenu {
-                            Button(role: .destructive) {
-                                noteToDelete = note
-                            } label: {
-                                Label("Apagar", systemImage: "trash")
+                    } else {
+                        ForEach(NoteDateBucket.allCases) { bucket in
+                            let entries = grouped[bucket] ?? []
+                            if !entries.isEmpty {
+                                Text(bucket.title.uppercased())
+                                    .font(.captionMono)
+                                    .foregroundStyle(Color.inkTertiary)
+                                    .padding(.horizontal, Spacing.xs)
+                                    .padding(.top, Spacing.sm)
+                                ForEach(entries) { note in
+                                    noteLink(note)
+                                }
                             }
                         }
                     }
@@ -82,6 +98,34 @@ struct CadernoView: View {
                 .padding(.bottom, 96)  // espaço pro FAB
             }
         }
+    }
+
+    private func noteLink(_ note: Note) -> some View {
+        NavigationLink {
+            NoteEditorView(note: note)
+        } label: {
+            NoteRow(note: note)
+        }
+        .buttonStyle(.plain)
+        .contextMenu {
+            ShareLink(item: noteAsMarkdown(note), subject: Text(note.displayTitle)) {
+                Label("Compartilhar", systemImage: "square.and.arrow.up")
+            }
+            Button(role: .destructive) {
+                noteToDelete = note
+            } label: {
+                Label("Apagar", systemImage: "trash")
+            }
+        }
+    }
+
+    private func noteAsMarkdown(_ note: Note) -> String {
+        let title = note.title.trimmingCharacters(in: .whitespacesAndNewlines)
+        return title.isEmpty ? note.body : "# \(title)\n\n\(note.body)"
+    }
+
+    private var isFiltering: Bool {
+        !search.isEmpty || selectedTag != nil
     }
 
     private var metaHeader: some View {
@@ -165,19 +209,78 @@ struct CadernoView: View {
     // MARK: - Derived data
 
     private var filteredNotes: [Note] {
-        notes.filter { note in
+        let base = notes.filter { note in
             (selectedTag == nil || note.tag == selectedTag) &&
             (search.isEmpty || matches(note, query: search))
         }
+        // Quando o usuário busca, ordena por relevância (score de overlap).
+        // Sem busca, mantém ordem cronológica natural (já vem do @Query).
+        if search.isEmpty { return base }
+        return base.sorted { lhs, rhs in
+            relevance(of: lhs, query: search) > relevance(of: rhs, query: search)
+        }
+    }
+
+    /// Notas agrupadas em buckets de tempo (Hoje / Ontem / Esta semana / Mais antigas).
+    private var grouped: [NoteDateBucket: [Note]] {
+        Dictionary(grouping: filteredNotes, by: { NoteDateBucket.bucket(for: $0.updatedAt) })
     }
 
     private var totalWords: Int {
         filteredNotes.reduce(0) { $0 + $1.wordCount }
     }
 
+    /// Match: substring no título OU substring no corpo OU overlap de palavras-chave.
+    /// O overlap dá +relevância pra acentos diferentes e termos relacionados.
     private func matches(_ note: Note, query: String) -> Bool {
+        let q = query
+            .folding(options: .diacriticInsensitive, locale: .init(identifier: "pt_BR"))
+            .lowercased()
+        let title = note.title
+            .folding(options: .diacriticInsensitive, locale: .init(identifier: "pt_BR"))
+            .lowercased()
+        let body = note.body
+            .folding(options: .diacriticInsensitive, locale: .init(identifier: "pt_BR"))
+            .lowercased()
+        if title.contains(q) || body.contains(q) { return true }
+        // fallback: pelo menos uma palavra significativa em comum (>3 chars)
+        let queryWords = Set(q.split(whereSeparator: { !$0.isLetter }).map(String.init).filter { $0.count > 3 })
+        if queryWords.isEmpty { return false }
+        let bodyWords = Set(body.split(whereSeparator: { !$0.isLetter }).map(String.init))
+        return !queryWords.isDisjoint(with: bodyWords)
+    }
+
+    private func relevance(of note: Note, query: String) -> Double {
         let q = query.lowercased()
-        return note.title.lowercased().contains(q) || note.body.lowercased().contains(q)
+        var score = 0.0
+        if note.title.lowercased().contains(q) { score += 3 }
+        if note.body.lowercased().contains(q) { score += 2 }
+        let qw = Set(q.split(whereSeparator: { !$0.isLetter }).map(String.init).filter { $0.count > 3 })
+        let bw = Set(note.body.lowercased().split(whereSeparator: { !$0.isLetter }).map(String.init))
+        score += Double(qw.intersection(bw).count)
+        return score
+    }
+
+    /// Export de todas as notas como um único documento markdown. Útil
+    /// pra dump completo sem mexer com .zip (que iOS não tem nativo).
+    private var allNotesAsMarkdown: String {
+        let header = """
+        # Caderno
+
+        Exportado em \(Date().formatted(.dateTime.day().month(.wide).year()))
+        Total: \(notes.count) \(notes.count == 1 ? "nota" : "notas") · \(notes.reduce(0) { $0 + $1.wordCount }) palavras
+
+        ---
+        """
+
+        let body = notes.map { note -> String in
+            let title = note.title.trimmingCharacters(in: .whitespacesAndNewlines)
+            let titleLine = title.isEmpty ? "## \(note.displayTitle)" : "## \(title)"
+            let meta = "*\(note.tag.rawValue) · \(note.wordCount) palavras · \(note.updatedAt.formatted(.dateTime.day().month().year()))*"
+            return "\(titleLine)\n\n\(meta)\n\n\(note.body)\n"
+        }.joined(separator: "\n---\n\n")
+
+        return header + "\n\n" + body
     }
 
     // MARK: - Actions

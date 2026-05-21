@@ -9,6 +9,9 @@ struct WritingStats {
     /// Dias seguidos terminando em hoje com ao menos uma nota tocada.
     /// Se o usuário não escreveu hoje, o streak é 0 (zero, não "ontem foi 5").
     let currentStreak: Int
+    /// 7 booleans, oldest first → most recent (hoje). Cada um indica se naquele dia
+    /// houve nota tocada. Útil pra renderizar a tira de dots.
+    let last7DaysActivity: [Bool]
 
     var hasAnyActivity: Bool { totalNotes > 0 }
 
@@ -33,11 +36,23 @@ struct WritingStats {
             cursor = prev
         }
 
+        // Activity dos últimos 7 dias, do mais antigo (-6) ao mais recente (hoje).
+        let today = calendar.startOfDay(for: now)
+        var activity: [Bool] = []
+        for offset in (0..<7).reversed() {
+            if let day = calendar.date(byAdding: .day, value: -offset, to: today) {
+                activity.append(touchedDays.contains(day))
+            } else {
+                activity.append(false)
+            }
+        }
+
         return WritingStats(
             totalNotes: total,
             totalWords: words,
             wordsThisWeek: weekWords,
-            currentStreak: streak
+            currentStreak: streak,
+            last7DaysActivity: activity
         )
     }
 }

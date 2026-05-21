@@ -15,6 +15,7 @@ struct EscritaCriativaApp: App {
     }()
 
     @State private var appState = AppState()
+    @AppStorage("didShowOnboarding") private var didShowOnboarding: Bool = false
 
     var body: some Scene {
         WindowGroup {
@@ -23,6 +24,13 @@ struct EscritaCriativaApp: App {
                 .environment(appState)
                 .onAppear {
                     TipsService.seedIfNeeded(context: container.mainContext)
+                }
+                .fullScreenCover(isPresented: Binding(
+                    get: { !didShowOnboarding },
+                    set: { if $0 { didShowOnboarding = false } }
+                )) {
+                    OnboardingView()
+                        .environment(appState)
                 }
         }
     }

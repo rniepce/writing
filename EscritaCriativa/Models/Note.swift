@@ -10,6 +10,9 @@ final class Note {
     var updatedAt: Date
     /// Persisted as raw string so SwiftData doesn't choke on enum migrations.
     var tagRaw: String
+    /// `true` quando o usuário escolheu a tag manualmente. O auto-classifier
+    /// só roda se for `false`. Defaults to `false` for old notes (migration safe).
+    var wasManuallyTagged: Bool = false
 
     init(title: String = "", body: String = "", tag: NoteTag = .outro) {
         self.id = UUID()
@@ -18,6 +21,7 @@ final class Note {
         self.createdAt = Date()
         self.updatedAt = Date()
         self.tagRaw = tag.rawValue
+        self.wasManuallyTagged = false
     }
 
     var tag: NoteTag {
@@ -25,11 +29,14 @@ final class Note {
         set { tagRaw = newValue.rawValue }
     }
 
-    /// Aproximação simples — boa o suficiente pra contadores na UI.
+    /// Word count usando o segmenter do Foundation — locale-aware (PT-BR sabe
+    /// que "d'água" é 1 palavra, "São Paulo" são 2).
     var wordCount: Int {
-        body
-            .split(whereSeparator: { $0.isWhitespace || $0.isNewline })
-            .count
+        var count = 0
+        body.enumerateSubstrings(in: body.startIndex..<body.endIndex, options: .byWords) { _, _, _, _ in
+            count += 1
+        }
+        return count
     }
 
     /// Resumo curto pra usar como subtítulo na lista quando não há título.

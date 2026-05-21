@@ -8,6 +8,7 @@ struct HomeView: View {
     @State private var heartScale: CGFloat = 1
     @State private var showExampleSheet = false
     @State private var showFavoritesSheet = false
+    @State private var showStatsSheet = false
 
     private var displayTip: Tip? { randomTip ?? TipsService.todayTip(from: tips) }
     private var isDaily: Bool { randomTip == nil }
@@ -33,7 +34,12 @@ struct HomeView: View {
                         ))
                         actions
                         if stats.hasAnyActivity {
-                            statsStrip
+                            Button {
+                                showStatsSheet = true
+                            } label: {
+                                statsStrip
+                            }
+                            .buttonStyle(.plain)
                         }
                     } else {
                         emptyState
@@ -75,6 +81,9 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showFavoritesSheet) {
                 FavoriteTipsSheet()
+            }
+            .sheet(isPresented: $showStatsSheet) {
+                StatsSheet()
             }
         }
     }

@@ -56,6 +56,14 @@ struct NoteEditorView: View {
                     }
                     .disabled(note.title.isEmpty && note.body.isEmpty)
 
+                    ShareLink(
+                        item: NotePDFDocument(note: note),
+                        preview: SharePreview(note.displayTitle)
+                    ) {
+                        Label("Exportar como PDF", systemImage: "doc.richtext")
+                    }
+                    .disabled(note.body.isEmpty)
+
                     Section("Tag") {
                         ForEach(NoteTag.allCases) { tag in
                             Button {
